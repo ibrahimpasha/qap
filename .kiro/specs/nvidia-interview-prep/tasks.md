@@ -54,8 +54,8 @@ Programmatically generate four Jupyter notebooks (.ipynb) for NVIDIA SDET Hacker
     - Cheat sheet: key formulas, complexity table, common patterns
     - _Requirements: 1.3, 2.4, 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 9.2, 10.2_
 
-- [ ] 6. Create OS/Linux content module
-  - [-] 6.1 Create `generator/content/os_linux.py` with a function that returns a `NotebookSpec` for the OS/Linux notebook
+- [x] 6. Create OS/Linux content module
+  - [x] 6.1 Create `generator/content/os_linux.py` with a function that returns a `NotebookSpec` for the OS/Linux notebook
     - Filename: `02_os_linux.ipynb`
     - Beginner topics (at least 3): Linux file system hierarchy, basic shell commands (ls, cd, grep, find, chmod, chown), process management (ps, top, kill), file permissions and ownership, package management (apt, yum/dnf)
     - Mid-Level topics (at least 3): process scheduling and memory management, shell scripting (variables, loops, conditionals, functions), networking commands (netstat, ss, ip, curl, ping, traceroute), systemd service management, log analysis (journalctl, common log locations)
@@ -68,7 +68,7 @@ Programmatically generate four Jupyter notebooks (.ipynb) for NVIDIA SDET Hacker
     - _Requirements: 1.3, 2.4, 5.1, 5.2, 5.3, 5.4, 5.5, 8.1, 8.2, 8.3, 8.4, 9.3, 10.2_
 
 - [ ] 7. Create Python coding content module
-  - [~] 7.1 Create `generator/content/python_coding.py` with a function that returns a `NotebookSpec` for the Python notebook
+  - [ ] 7.1 Create `generator/content/python_coding.py` with a function that returns a `NotebookSpec` for the Python notebook
     - Filename: `03_python_coding.ipynb`
     - Beginner topics (at least 3): string manipulation, list comprehensions and built-in functions, dictionary operations, file I/O basics, basic error handling (try/except)
     - Mid-Level topics (at least 3): OOP (classes, inheritance, decorators), generators and iterators, regular expressions, collections module (Counter, defaultdict, deque), common algorithms (two pointers, sliding window, recursion)
@@ -82,7 +82,7 @@ Programmatically generate four Jupyter notebooks (.ipynb) for NVIDIA SDET Hacker
     - _Requirements: 1.3, 2.4, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 9.4, 10.3_
 
 - [ ] 8. Create REST API content module
-  - [~] 8.1 Create `generator/content/rest_api.py` with a function that returns a `NotebookSpec` for the REST API notebook
+  - [ ] 8.1 Create `generator/content/rest_api.py` with a function that returns a `NotebookSpec` for the REST API notebook
     - Filename: `04_rest_api_coding.ipynb`
     - Beginner topics (at least 3): HTTP methods (GET, POST, PUT, DELETE), status codes, making requests with `requests` library, parsing JSON responses, query parameters and headers
     - Mid-Level topics (at least 3): API authentication (API keys, Bearer tokens), pagination handling, error handling and retry logic, nested JSON data, building API test scripts
@@ -99,14 +99,14 @@ Programmatically generate four Jupyter notebooks (.ipynb) for NVIDIA SDET Hacker
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 10. Create main entry point and generate notebooks
-  - [~] 10.1 Create `generate_notebooks.py` as the main entry point
+  - [ ] 10.1 Create `generate_notebooks.py` as the main entry point
     - Import all four content module spec functions and NotebookGenerator
     - Instantiate NotebookGenerator
     - Loop through all four NotebookSpecs, generate each notebook, and write to `nvidia_interview_prep/`
     - Print summary of generated files
     - _Requirements: 1.1, 1.2, 1.3_
 
-  - [~] 10.2 Run the generator to produce all four .ipynb files
+  - [ ] 10.2 Run the generator to produce all four .ipynb files
     - Execute `generate_notebooks.py`
     - Verify all four files exist in `nvidia_interview_prep/` with correct filenames
     - _Requirements: 1.1, 1.2, 1.3_

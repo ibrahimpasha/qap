@@ -2073,3 +2073,358 @@ def _pxe_boot_overview() -> TopicSection:
             "PXE is essential for provisioning bare-metal servers at scale in data centers.",
         ],
     )
+
+
+# ---------------------------------------------------------------------------
+# Mock test (10-12 MCQs for 25-minute completion)
+# ---------------------------------------------------------------------------
+
+def _mock_test() -> list[MCQ]:
+    return [
+        MCQ(
+            question="Which directory in the Linux filesystem hierarchy stores variable data such as logs and caches?",
+            options={
+                "A": "/etc",
+                "B": "/usr",
+                "C": "/var",
+                "D": "/opt",
+            },
+            correct="C",
+            explanation=(
+                "/var stores variable data that changes during system "
+                "operation: logs (/var/log), mail spools (/var/mail), "
+                "caches (/var/cache), and temporary files (/var/tmp)."
+            ),
+            distractors={
+                "A": "/etc stores configuration files, not variable runtime data.",
+                "B": "/usr stores user programs and libraries, not logs or caches.",
+                "D": "/opt stores optional/third-party software packages.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What is the output of the following command?\n\n"
+                "```bash\n"
+                "echo $((3 + 5 * 2))\n"
+                "```"
+            ),
+            options={
+                "A": "16",
+                "B": "13",
+                "C": "10",
+                "D": "11",
+            },
+            correct="B",
+            explanation=(
+                "Bash arithmetic follows standard operator precedence. "
+                "Multiplication before addition: 5 * 2 = 10, then 3 + 10 = 13."
+            ),
+            distractors={
+                "A": "16 would result from (3 + 5) * 2, but * has higher precedence than +.",
+                "C": "10 would be just 5 * 2, ignoring the addition.",
+                "D": "11 doesn't match any valid evaluation of this expression.",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question="Which signal cannot be caught or ignored by a process?",
+            options={
+                "A": "SIGTERM (15)",
+                "B": "SIGHUP (1)",
+                "C": "SIGKILL (9)",
+                "D": "SIGINT (2)",
+            },
+            correct="C",
+            explanation=(
+                "SIGKILL (9) cannot be caught, blocked, or ignored. It "
+                "immediately terminates the process. This is why `kill -9` "
+                "is the last resort for unresponsive processes."
+            ),
+            distractors={
+                "A": "SIGTERM can be caught — processes can perform cleanup before exiting.",
+                "B": "SIGHUP can be caught — many daemons use it to reload configuration.",
+                "D": "SIGINT can be caught — programs can handle Ctrl+C gracefully.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question="What does `chmod 700 secret.txt` do?",
+            options={
+                "A": "Gives read, write, execute to everyone",
+                "B": "Gives read, write, execute to owner only; no access for group and others",
+                "C": "Gives read only to owner; no access for group and others",
+                "D": "Gives read, write to owner; read to group and others",
+            },
+            correct="B",
+            explanation=(
+                "7 = r(4)+w(2)+x(1) = rwx for owner. 0 = no permissions for "
+                "group. 0 = no permissions for others. So 700 = rwx------."
+            ),
+            distractors={
+                "A": "That would be 777 (rwxrwxrwx), not 700.",
+                "C": "Read only for owner would be 400 (r--------), not 700.",
+                "D": "That would be 644 (rw-r--r--), not 700.",
+            },
+            mcq_type="command",
+        ),
+        MCQ(
+            question=(
+                "Which command installs a package called 'nginx' on a "
+                "Debian/Ubuntu system?"
+            ),
+            options={
+                "A": "yum install nginx",
+                "B": "dnf install nginx",
+                "C": "apt install nginx",
+                "D": "rpm -i nginx",
+            },
+            correct="C",
+            explanation=(
+                "`apt install` is the package installation command for "
+                "Debian/Ubuntu systems. `yum` and `dnf` are for RHEL/CentOS, "
+                "and `rpm -i` installs a local .rpm file."
+            ),
+            distractors={
+                "A": "`yum` is for RHEL/CentOS systems, not Debian/Ubuntu.",
+                "B": "`dnf` is for Fedora/RHEL 8+, not Debian/Ubuntu.",
+                "D": "`rpm -i` installs a local .rpm package file, not from a repository.",
+            },
+            mcq_type="command",
+        ),
+        MCQ(
+            question=(
+                "In a systemd unit file, what does `Restart=on-failure` mean?"
+            ),
+            options={
+                "A": "The service restarts every time it stops, regardless of reason",
+                "B": "The service restarts only when it exits with a non-zero exit code",
+                "C": "The service restarts only when manually triggered",
+                "D": "The service never restarts automatically",
+            },
+            correct="B",
+            explanation=(
+                "`Restart=on-failure` tells systemd to restart the service "
+                "only when it exits with a non-zero exit code or is killed "
+                "by a signal. A clean exit (code 0) does not trigger a restart."
+            ),
+            distractors={
+                "A": "That behavior is `Restart=always`, not `on-failure`.",
+                "C": "Manual restart is the default (no Restart directive); `on-failure` is automatic.",
+                "D": "`Restart=no` means never restart; `on-failure` does restart on errors.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What does the following command do?\n\n"
+                "```bash\n"
+                "ss -tlnp | grep :80\n"
+                "```"
+            ),
+            options={
+                "A": "Shows all UDP connections on port 80",
+                "B": "Shows the process listening on TCP port 80",
+                "C": "Pings port 80 on localhost",
+                "D": "Blocks all traffic on port 80",
+            },
+            correct="B",
+            explanation=(
+                "`ss -tlnp` lists TCP (-t) listening (-l) sockets in numeric "
+                "(-n) format with process info (-p). Piping to `grep :80` "
+                "filters for port 80, showing which process is listening there."
+            ),
+            distractors={
+                "A": "`-t` specifies TCP, not UDP. Use `-u` for UDP.",
+                "C": "`ss` shows socket statistics; `ping` tests connectivity.",
+                "D": "`ss` is a monitoring tool; use `iptables` or `ufw` to block traffic.",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question="In Docker, what does the `-p 3000:80` flag in `docker run` do?",
+            options={
+                "A": "Maps container port 3000 to host port 80",
+                "B": "Maps host port 3000 to container port 80",
+                "C": "Exposes port 3000 inside the container only",
+                "D": "Opens ports 3000 through 80 on the host",
+            },
+            correct="B",
+            explanation=(
+                "The `-p` flag format is `host:container`. So `-p 3000:80` "
+                "maps host port 3000 to container port 80. Traffic hitting "
+                "the host on port 3000 is forwarded to the container's port 80."
+            ),
+            distractors={
+                "A": "The format is host:container, not container:host. 3000 is the host port.",
+                "C": "`EXPOSE` in a Dockerfile documents internal ports; `-p` creates actual mappings.",
+                "D": "This maps a single port pair, not a range.",
+            },
+            mcq_type="command",
+        ),
+        MCQ(
+            question="What is the primary role of DHCP in the PXE boot process?",
+            options={
+                "A": "Transfer the boot loader file to the client",
+                "B": "Assign an IP address and provide the TFTP server location",
+                "C": "Install the operating system on the client",
+                "D": "Authenticate the client before allowing network boot",
+            },
+            correct="B",
+            explanation=(
+                "In PXE boot, the DHCP server assigns an IP address to the "
+                "client and provides two critical pieces of information: the "
+                "TFTP server address (next-server) and the boot loader "
+                "filename. The actual file transfer is done by TFTP."
+            ),
+            distractors={
+                "A": "TFTP transfers the boot loader, not DHCP.",
+                "C": "OS installation is handled by kickstart/preseed after the kernel boots.",
+                "D": "Standard PXE doesn't include authentication — DHCP just assigns network config.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "Which Kubernetes object provides a stable network endpoint "
+                "for accessing a set of pods?"
+            ),
+            options={
+                "A": "Pod",
+                "B": "Deployment",
+                "C": "Service",
+                "D": "ConfigMap",
+            },
+            correct="C",
+            explanation=(
+                "A Kubernetes Service provides a stable IP address and DNS "
+                "name that routes traffic to a set of pods selected by labels. "
+                "Pods are ephemeral and get new IPs when recreated, but the "
+                "Service endpoint remains stable."
+            ),
+            distractors={
+                "A": "Pods have IPs but they change when pods are recreated — not stable.",
+                "B": "Deployments manage pod replicas but don't provide network endpoints.",
+                "D": "ConfigMaps store configuration data, not network routing.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What does the following shell script output?\n\n"
+                "```bash\n"
+                "#!/bin/bash\n"
+                "x=5\n"
+                "if [ $x -gt 3 ] && [ $x -lt 10 ]; then\n"
+                "    echo \"in range\"\n"
+                "else\n"
+                "    echo \"out of range\"\n"
+                "fi\n"
+                "```"
+            ),
+            options={
+                "A": "out of range",
+                "B": "in range",
+                "C": "5",
+                "D": "Syntax error",
+            },
+            correct="B",
+            explanation=(
+                "x=5. The condition checks if 5 > 3 (true) AND 5 < 10 (true). "
+                "Both conditions are true, so the `&&` evaluates to true and "
+                "\"in range\" is printed."
+            ),
+            distractors={
+                "A": "Both conditions are true (5 > 3 and 5 < 10), so the if branch executes.",
+                "C": "The script echoes a string, not the value of x.",
+                "D": "The syntax is valid Bash — `[ ]` with `-gt` and `-lt` is correct.",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question=(
+                "Which command finds all `.log` files under `/var/log` that "
+                "were modified in the last 7 days?"
+            ),
+            options={
+                "A": "grep -r '*.log' /var/log --days 7",
+                "B": "find /var/log -name '*.log' -mtime -7",
+                "C": "ls -la /var/log/*.log --recent 7",
+                "D": "locate /var/log/*.log -time 7",
+            },
+            correct="B",
+            explanation=(
+                "`find /var/log -name '*.log'` searches for files matching "
+                "the pattern. `-mtime -7` filters for files modified within "
+                "the last 7 days (the minus sign means 'less than 7 days ago')."
+            ),
+            distractors={
+                "A": "`grep` searches file contents, not filenames. It has no `--days` flag.",
+                "C": "`ls` doesn't have a `--recent` flag for time-based filtering.",
+                "D": "`locate` uses a database for fast filename search but doesn't have `-time`.",
+            },
+            mcq_type="command",
+        ),
+    ]
+
+
+# ---------------------------------------------------------------------------
+# Cheat sheet
+# ---------------------------------------------------------------------------
+
+def _cheat_sheet() -> str:
+    return (
+        "## OS & Linux Quick-Reference Cheat Sheet\n\n"
+        "### Essential Commands\n\n"
+        "| Command | Common Flags | Purpose |\n"
+        "|---------|-------------|--------|\n"
+        "| `ls` | `-la`, `-lh`, `-R` | List files (all, human-readable, recursive) |\n"
+        "| `cd` | `~`, `..`, `-` | Change directory (home, up, previous) |\n"
+        "| `grep` | `-r`, `-i`, `-n`, `-c` | Search text (recursive, case-insensitive, line numbers, count) |\n"
+        "| `find` | `-name`, `-type`, `-size`, `-mtime` | Find files by name, type, size, modification time |\n"
+        "| `chmod` | `755`, `644`, `u+x` | Change file permissions |\n"
+        "| `chown` | `-R user:group` | Change file ownership (recursive) |\n"
+        "| `ps` | `aux`, `-u USER` | Show processes (all, by user) |\n"
+        "| `kill` | `-9`, `-15`, `-HUP` | Send signal (SIGKILL, SIGTERM, SIGHUP) |\n"
+        "| `ss` | `-tlnp`, `-u` | Show sockets (TCP listening with process, UDP) |\n"
+        "| `curl` | `-s`, `-o`, `-w`, `-I` | HTTP client (silent, output, write-out, headers) |\n"
+        "| `dig` | `+short` | DNS lookup (concise output) |\n"
+        "| `systemctl` | `start`, `stop`, `enable`, `status` | Manage systemd services |\n"
+        "| `journalctl` | `-u`, `-f`, `-p`, `--since` | Query systemd journal |\n\n"
+        "### Important File Paths\n\n"
+        "| Path | Contents |\n"
+        "|------|----------|\n"
+        "| `/etc/hosts` | Static hostname-to-IP mappings |\n"
+        "| `/etc/fstab` | Filesystem mount table |\n"
+        "| `/etc/passwd` | User account information |\n"
+        "| `/etc/shadow` | Encrypted user passwords |\n"
+        "| `/etc/ssh/sshd_config` | SSH server configuration |\n"
+        "| `/var/log/syslog` | System log (Debian/Ubuntu) |\n"
+        "| `/var/log/messages` | System log (RHEL/CentOS) |\n"
+        "| `/var/log/auth.log` | Authentication log |\n"
+        "| `/proc/cpuinfo` | CPU information |\n"
+        "| `/proc/meminfo` | Memory information |\n"
+        "| `/etc/systemd/system/` | Custom systemd unit files |\n\n"
+        "### Common Networking Ports\n\n"
+        "| Port | Service |\n"
+        "|------|--------|\n"
+        "| 22 | SSH |\n"
+        "| 80 | HTTP |\n"
+        "| 443 | HTTPS |\n"
+        "| 53 | DNS |\n"
+        "| 25 | SMTP |\n"
+        "| 3306 | MySQL |\n"
+        "| 5432 | PostgreSQL |\n"
+        "| 6379 | Redis |\n"
+        "| 8080 | HTTP alternate / proxy |\n"
+        "| 2375/2376 | Docker daemon |\n"
+        "| 6443 | Kubernetes API server |\n"
+        "| 69 | TFTP (PXE boot) |\n\n"
+        "### Key Reminders\n\n"
+        "- `kill` sends SIGTERM (15) by default — use `kill -9` only as last resort.\n"
+        "- `apt update` ≠ `apt upgrade` — update refreshes index, upgrade installs updates.\n"
+        "- `systemctl enable` ≠ `systemctl start` — enable sets boot start, start runs now.\n"
+        "- Docker `-p` format: `host:container` (e.g., `-p 8080:80`).\n"
+        "- PXE boot order: DHCP → TFTP (boot loader) → kernel → HTTP (install files).\n"
+        "- File permissions: `755` = rwxr-xr-x, `644` = rw-r--r--, `700` = rwx------."
+    )
