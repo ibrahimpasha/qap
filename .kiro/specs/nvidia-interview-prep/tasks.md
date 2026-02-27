@@ -40,8 +40,8 @@ Programmatically generate four Jupyter notebooks (.ipynb) for NVIDIA SDET Hacker
 - [x] 4. Checkpoint - Verify generator infrastructure
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Create DSA content module
-  - [-] 5.1 Create `generator/content/dsa.py` with a function that returns a `NotebookSpec` for the DSA notebook
+- [x] 5. Create DSA content module
+  - [x] 5.1 Create `generator/content/dsa.py` with a function that returns a `NotebookSpec` for the DSA notebook
     - Filename: `01_data_structures_algorithms.ipynb`
     - Beginner topics (at least 3): Arrays and Strings, Linked Lists, Stacks and Queues, Hash Tables, basic Sorting (Bubble, Selection, Insertion)
     - Mid-Level topics (at least 3): Binary Trees and BSTs, Graphs and BFS/DFS, advanced Sorting (Merge Sort, Quick Sort), Searching (Binary Search), Big-O complexity analysis
@@ -55,7 +55,7 @@ Programmatically generate four Jupyter notebooks (.ipynb) for NVIDIA SDET Hacker
     - _Requirements: 1.3, 2.4, 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 9.2, 10.2_
 
 - [ ] 6. Create OS/Linux content module
-  - [~] 6.1 Create `generator/content/os_linux.py` with a function that returns a `NotebookSpec` for the OS/Linux notebook
+  - [-] 6.1 Create `generator/content/os_linux.py` with a function that returns a `NotebookSpec` for the OS/Linux notebook
     - Filename: `02_os_linux.ipynb`
     - Beginner topics (at least 3): Linux file system hierarchy, basic shell commands (ls, cd, grep, find, chmod, chown), process management (ps, top, kill), file permissions and ownership, package management (apt, yum/dnf)
     - Mid-Level topics (at least 3): process scheduling and memory management, shell scripting (variables, loops, conditionals, functions), networking commands (netstat, ss, ip, curl, ping, traceroute), systemd service management, log analysis (journalctl, common log locations)

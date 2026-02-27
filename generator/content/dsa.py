@@ -809,3 +809,805 @@ def _binary_trees_bst() -> TopicSection:
             "Tree traversals: in-order (sorted), pre-order (copy), post-order (delete).",
         ],
     )
+
+
+def _graphs_bfs_dfs() -> TopicSection:
+    explanation = (
+        "### Graphs and BFS/DFS\n\n"
+        "A **graph** consists of vertices (nodes) and edges connecting them. "
+        "Graphs can be directed or undirected, weighted or unweighted.\n\n"
+        "**Representation — Adjacency List:**\n"
+        "The most common representation uses a dictionary where each key is a "
+        "vertex and the value is a list of its neighbors. Space: O(V + E).\n\n"
+        "**Breadth-First Search (BFS):**\n"
+        "- Explores level by level using a queue.\n"
+        "- Time: O(V + E), Space: O(V)\n"
+        "- Use cases: shortest path (unweighted), level-order traversal.\n\n"
+        "**Depth-First Search (DFS):**\n"
+        "- Explores as deep as possible before backtracking, using a stack "
+        "(or recursion).\n"
+        "- Time: O(V + E), Space: O(V)\n"
+        "- Use cases: cycle detection, topological sort, connected components."
+    )
+
+    examples = [
+        (
+            "# --- Graph representation and BFS ---\n"
+            "from collections import deque\n\n"
+            "# Adjacency list representation\n"
+            "graph = {\n"
+            "    'A': ['B', 'C'],\n"
+            "    'B': ['A', 'D', 'E'],\n"
+            "    'C': ['A', 'F'],\n"
+            "    'D': ['B'],\n"
+            "    'E': ['B', 'F'],\n"
+            "    'F': ['C', 'E'],\n"
+            "}\n\n"
+            "def bfs(graph: dict, start: str) -> list[str]:\n"
+            "    \"\"\"Breadth-First Search — O(V + E) time, O(V) space.\"\"\"\n"
+            "    visited = set()\n"
+            "    queue = deque([start])\n"
+            "    visited.add(start)\n"
+            "    order = []\n\n"
+            "    while queue:\n"
+            "        vertex = queue.popleft()  # dequeue front\n"
+            "        order.append(vertex)\n"
+            "        for neighbor in graph[vertex]:\n"
+            "            if neighbor not in visited:\n"
+            "                visited.add(neighbor)\n"
+            "                queue.append(neighbor)  # enqueue\n"
+            "    return order\n\n"
+            "print(bfs(graph, 'A'))  # ['A', 'B', 'C', 'D', 'E', 'F']"
+        ),
+        (
+            "# --- DFS (iterative with stack) ---\n"
+            "def dfs_iterative(graph: dict, start: str) -> list[str]:\n"
+            "    \"\"\"Depth-First Search using a stack — O(V + E) time.\"\"\"\n"
+            "    visited = set()\n"
+            "    stack = [start]\n"
+            "    order = []\n\n"
+            "    while stack:\n"
+            "        vertex = stack.pop()  # pop from top (LIFO)\n"
+            "        if vertex not in visited:\n"
+            "            visited.add(vertex)\n"
+            "            order.append(vertex)\n"
+            "            # Add neighbors in reverse for consistent ordering\n"
+            "            for neighbor in reversed(graph[vertex]):\n"
+            "                if neighbor not in visited:\n"
+            "                    stack.append(neighbor)\n"
+            "    return order\n\n"
+            "# --- DFS (recursive) ---\n"
+            "def dfs_recursive(graph: dict, start: str, visited: set = None) -> list[str]:\n"
+            "    \"\"\"Depth-First Search using recursion — O(V + E) time.\"\"\"\n"
+            "    if visited is None:\n"
+            "        visited = set()\n"
+            "    visited.add(start)\n"
+            "    order = [start]\n"
+            "    for neighbor in graph[start]:\n"
+            "        if neighbor not in visited:\n"
+            "            order.extend(dfs_recursive(graph, neighbor, visited))\n"
+            "    return order\n\n"
+            "graph = {\n"
+            "    'A': ['B', 'C'],\n"
+            "    'B': ['A', 'D', 'E'],\n"
+            "    'C': ['A', 'F'],\n"
+            "    'D': ['B'],\n"
+            "    'E': ['B', 'F'],\n"
+            "    'F': ['C', 'E'],\n"
+            "}\n"
+            "print(dfs_iterative(graph, 'A'))  # ['A', 'B', 'D', 'E', 'F', 'C']\n"
+            "print(dfs_recursive(graph, 'A'))  # ['A', 'B', 'D', 'E', 'F', 'C']"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "Which data structure does BFS use internally to track "
+                "which vertices to visit next?"
+            ),
+            options={
+                "A": "Stack",
+                "B": "Queue",
+                "C": "Priority Queue (Heap)",
+                "D": "Hash Table",
+            },
+            correct="B",
+            explanation=(
+                "BFS uses a queue (FIFO) to process vertices level by level. "
+                "The first vertex discovered at each level is the first to be "
+                "explored, ensuring breadth-first ordering."
+            ),
+            distractors={
+                "A": "A stack gives LIFO behavior, which produces DFS, not BFS.",
+                "C": "A priority queue is used in Dijkstra's algorithm, not standard BFS.",
+                "D": "A hash table is used for the visited set, not for traversal ordering.",
+            },
+            mcq_type="conceptual",
+        ),
+    ]
+
+    return TopicSection(
+        title="Graphs and BFS/DFS",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "Adjacency list is the standard graph representation: O(V + E) space.",
+            "BFS uses a queue → level-by-level exploration → shortest path (unweighted).",
+            "DFS uses a stack (or recursion) → deep exploration → cycle detection, topological sort.",
+            "Both BFS and DFS run in O(V + E) time.",
+            "Always maintain a `visited` set to avoid infinite loops in graphs with cycles.",
+        ],
+    )
+
+
+def _advanced_sorting() -> TopicSection:
+    explanation = (
+        "### Advanced Sorting — Merge Sort and Quick Sort\n\n"
+        "These divide-and-conquer algorithms achieve O(n log n) average-case "
+        "performance, making them practical for large datasets.\n\n"
+        "| Algorithm | Best | Average | Worst | Space | Stable? |\n"
+        "|-----------|------|---------|-------|-------|---------|\n"
+        "| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | Yes |\n"
+        "| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) | No |\n\n"
+        "**Merge Sort:** Divide the array in half, recursively sort each half, "
+        "then merge the two sorted halves. Guaranteed O(n log n) but uses "
+        "O(n) extra space.\n\n"
+        "**Quick Sort:** Pick a pivot, partition elements into those less than "
+        "and greater than the pivot, then recursively sort each partition. "
+        "O(n log n) average but O(n²) worst case (poor pivot choice). "
+        "In-place with O(log n) stack space.\n\n"
+        "**Python's built-in `sorted()` and `list.sort()`** use Timsort, "
+        "a hybrid of Merge Sort and Insertion Sort — O(n log n) worst case, "
+        "stable, and highly optimized."
+    )
+
+    examples = [
+        (
+            "# --- Merge Sort ---\n"
+            "# Time: O(n log n) always\n"
+            "# Space: O(n) — needs auxiliary arrays\n"
+            "def merge_sort(arr: list) -> list:\n"
+            "    \"\"\"Sort array using merge sort (divide and conquer).\"\"\"\n"
+            "    if len(arr) <= 1:\n"
+            "        return arr\n\n"
+            "    mid = len(arr) // 2\n"
+            "    left = merge_sort(arr[:mid])    # sort left half\n"
+            "    right = merge_sort(arr[mid:])   # sort right half\n"
+            "    return merge(left, right)\n\n"
+            "def merge(left: list, right: list) -> list:\n"
+            "    \"\"\"Merge two sorted arrays into one sorted array.\"\"\"\n"
+            "    result = []\n"
+            "    i = j = 0\n"
+            "    while i < len(left) and j < len(right):\n"
+            "        if left[i] <= right[j]:  # <= for stability\n"
+            "            result.append(left[i])\n"
+            "            i += 1\n"
+            "        else:\n"
+            "            result.append(right[j])\n"
+            "            j += 1\n"
+            "    result.extend(left[i:])   # remaining elements\n"
+            "    result.extend(right[j:])\n"
+            "    return result\n\n"
+            "print(merge_sort([38, 27, 43, 3, 9, 82, 10]))\n"
+            "# [3, 9, 10, 27, 38, 43, 82]"
+        ),
+        (
+            "# --- Quick Sort ---\n"
+            "# Time: O(n log n) average, O(n²) worst case\n"
+            "# Space: O(log n) stack space\n"
+            "def quick_sort(arr: list) -> list:\n"
+            "    \"\"\"Sort array using quick sort with last-element pivot.\"\"\"\n"
+            "    if len(arr) <= 1:\n"
+            "        return arr\n\n"
+            "    pivot = arr[-1]  # choose last element as pivot\n"
+            "    left = [x for x in arr[:-1] if x <= pivot]\n"
+            "    right = [x for x in arr[:-1] if x > pivot]\n"
+            "    return quick_sort(left) + [pivot] + quick_sort(right)\n\n"
+            "print(quick_sort([10, 7, 8, 9, 1, 5]))\n"
+            "# [1, 5, 7, 8, 9, 10]"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "What is the worst-case time complexity of Quick Sort, and "
+                "when does it occur?"
+            ),
+            options={
+                "A": "O(n log n) — when the array is random",
+                "B": "O(n²) — when the pivot is always the smallest or largest element",
+                "C": "O(n) — when the array is already sorted",
+                "D": "O(n²) — when all elements are equal and we use merge sort",
+            },
+            correct="B",
+            explanation=(
+                "Quick Sort degrades to O(n²) when the pivot consistently "
+                "produces the most unbalanced partition (e.g., always picking "
+                "the smallest or largest element). This happens with sorted "
+                "input and a naive first/last-element pivot strategy."
+            ),
+            distractors={
+                "A": "O(n log n) is the average case, not the worst case.",
+                "C": "O(n) is not achievable by any comparison-based sort in the worst case.",
+                "D": "This describes a different algorithm (merge sort), not quick sort.",
+            },
+            mcq_type="complexity",
+        ),
+    ]
+
+    return TopicSection(
+        title="Advanced Sorting",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "Merge Sort: O(n log n) guaranteed, stable, but uses O(n) extra space.",
+            "Quick Sort: O(n log n) average, O(n²) worst case, in-place (O(log n) stack).",
+            "Python's built-in sort (Timsort) is O(n log n) worst case — use it in production.",
+            "Randomized pivot selection avoids Quick Sort's worst case in practice.",
+            "Merge Sort is preferred when stability is required; Quick Sort for in-place sorting.",
+        ],
+    )
+
+
+def _searching_algorithms() -> TopicSection:
+    explanation = (
+        "### Searching Algorithms — Binary Search\n\n"
+        "**Binary Search** works on sorted arrays by repeatedly dividing the "
+        "search space in half. It's one of the most important algorithms to "
+        "master for interviews.\n\n"
+        "**Time complexity:** O(log n)\n"
+        "**Space complexity:** O(1) iterative, O(log n) recursive\n\n"
+        "**Variants:**\n"
+        "- **Standard:** Find exact target.\n"
+        "- **Lower bound (bisect_left):** Find the first position where "
+        "target could be inserted to keep the array sorted.\n"
+        "- **Upper bound (bisect_right):** Find the position after the last "
+        "occurrence of target.\n\n"
+        "**Key insight:** Binary search can be applied to any monotonic "
+        "function, not just sorted arrays (e.g., 'find the minimum speed to "
+        "finish within time T')."
+    )
+
+    examples = [
+        (
+            "# --- Standard Binary Search ---\n"
+            "# Time: O(log n), Space: O(1)\n"
+            "def binary_search(arr: list, target: int) -> int:\n"
+            "    \"\"\"Return index of target, or -1 if not found.\"\"\"\n"
+            "    left, right = 0, len(arr) - 1\n\n"
+            "    while left <= right:\n"
+            "        mid = (left + right) // 2  # avoid overflow in other languages\n"
+            "        if arr[mid] == target:\n"
+            "            return mid\n"
+            "        elif arr[mid] < target:\n"
+            "            left = mid + 1   # search right half\n"
+            "        else:\n"
+            "            right = mid - 1  # search left half\n"
+            "    return -1  # not found\n\n"
+            "arr = [1, 3, 5, 7, 9, 11, 13]\n"
+            "print(binary_search(arr, 7))   # 3\n"
+            "print(binary_search(arr, 4))   # -1"
+        ),
+        (
+            "# --- Lower Bound and Upper Bound ---\n"
+            "def lower_bound(arr: list, target: int) -> int:\n"
+            "    \"\"\"Find first index where arr[i] >= target. O(log n).\"\"\"\n"
+            "    left, right = 0, len(arr)\n"
+            "    while left < right:\n"
+            "        mid = (left + right) // 2\n"
+            "        if arr[mid] < target:\n"
+            "            left = mid + 1\n"
+            "        else:\n"
+            "            right = mid\n"
+            "    return left\n\n"
+            "def upper_bound(arr: list, target: int) -> int:\n"
+            "    \"\"\"Find first index where arr[i] > target. O(log n).\"\"\"\n"
+            "    left, right = 0, len(arr)\n"
+            "    while left < right:\n"
+            "        mid = (left + right) // 2\n"
+            "        if arr[mid] <= target:\n"
+            "            left = mid + 1\n"
+            "        else:\n"
+            "            right = mid\n"
+            "    return left\n\n"
+            "arr = [1, 3, 3, 3, 5, 7]\n"
+            "print(lower_bound(arr, 3))  # 1  (first index of 3)\n"
+            "print(upper_bound(arr, 3))  # 4  (first index after all 3s)\n"
+            "# Count of 3s = upper_bound - lower_bound = 4 - 1 = 3"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "What is the time complexity of binary search on a sorted "
+                "array of n elements?"
+            ),
+            options={
+                "A": "O(n)",
+                "B": "O(n log n)",
+                "C": "O(log n)",
+                "D": "O(1)",
+            },
+            correct="C",
+            explanation=(
+                "Binary search halves the search space with each comparison. "
+                "After k comparisons, the remaining space is n/2^k. The search "
+                "ends when n/2^k = 1, so k = log₂(n), giving O(log n)."
+            ),
+            distractors={
+                "A": "O(n) is linear search — binary search is much faster on sorted data.",
+                "B": "O(n log n) is the complexity of sorting, not searching.",
+                "D": "O(1) would mean finding the element without any comparisons.",
+            },
+            mcq_type="complexity",
+        ),
+    ]
+
+    return TopicSection(
+        title="Searching Algorithms",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "Binary search requires a sorted array and runs in O(log n).",
+            "Use `left <= right` for standard search, `left < right` for bound variants.",
+            "Lower bound finds the first valid position; upper bound finds one past the last.",
+            "Python's `bisect` module provides optimized `bisect_left` and `bisect_right`.",
+            "Binary search applies to any monotonic condition, not just sorted arrays.",
+        ],
+    )
+
+
+def _big_o_analysis() -> TopicSection:
+    explanation = (
+        "### Big-O Complexity Analysis\n\n"
+        "Big-O notation describes the upper bound of an algorithm's growth "
+        "rate as input size increases. It tells you how an algorithm **scales**, "
+        "not its exact runtime.\n\n"
+        "**Common complexities (fastest to slowest):**\n\n"
+        "| Big-O | Name | Example |\n"
+        "|-------|------|---------|\n"
+        "| O(1) | Constant | Array index access, hash table lookup |\n"
+        "| O(log n) | Logarithmic | Binary search |\n"
+        "| O(n) | Linear | Single loop through array |\n"
+        "| O(n log n) | Linearithmic | Merge sort, efficient sorting |\n"
+        "| O(n²) | Quadratic | Nested loops, bubble sort |\n"
+        "| O(2ⁿ) | Exponential | Recursive Fibonacci (naive) |\n"
+        "| O(n!) | Factorial | Generating all permutations |\n\n"
+        "**Rules for analyzing code:**\n"
+        "1. **Drop constants:** O(2n) → O(n)\n"
+        "2. **Drop lower-order terms:** O(n² + n) → O(n²)\n"
+        "3. **Nested loops multiply:** Two nested loops over n → O(n²)\n"
+        "4. **Sequential code adds:** Loop O(n) then loop O(m) → O(n + m)\n"
+        "5. **Recursive calls:** Analyze the recurrence relation (e.g., "
+        "T(n) = 2T(n/2) + O(n) → O(n log n) for merge sort)"
+    )
+
+    examples = [
+        (
+            "# --- Analyzing time complexity ---\n\n"
+            "# O(1) — Constant time\n"
+            "def get_first(arr):\n"
+            "    return arr[0]  # single operation, independent of n\n\n"
+            "# O(n) — Linear time\n"
+            "def find_max(arr):\n"
+            "    max_val = arr[0]\n"
+            "    for x in arr:        # one loop through n elements\n"
+            "        if x > max_val:\n"
+            "            max_val = x\n"
+            "    return max_val\n\n"
+            "# O(n²) — Quadratic time\n"
+            "def has_duplicate_pair(arr):\n"
+            "    for i in range(len(arr)):       # outer loop: n\n"
+            "        for j in range(i + 1, len(arr)):  # inner loop: ~n\n"
+            "            if arr[i] == arr[j]:    # n * n = n²\n"
+            "                return True\n"
+            "    return False\n\n"
+            "# O(log n) — Logarithmic time\n"
+            "def count_halvings(n):\n"
+            "    count = 0\n"
+            "    while n > 1:\n"
+            "        n //= 2   # halving each iteration → log₂(n) iterations\n"
+            "        count += 1\n"
+            "    return count\n\n"
+            "print(count_halvings(16))  # 4  (16 → 8 → 4 → 2 → 1)"
+        ),
+        (
+            "# --- Space complexity analysis ---\n\n"
+            "# O(1) space — in-place\n"
+            "def reverse_in_place(arr):\n"
+            "    left, right = 0, len(arr) - 1\n"
+            "    while left < right:\n"
+            "        arr[left], arr[right] = arr[right], arr[left]\n"
+            "        left += 1\n"
+            "        right -= 1\n"
+            "    # Only uses a constant number of variables\n\n"
+            "# O(n) space — creates new data structure\n"
+            "def get_squares(arr):\n"
+            "    return [x ** 2 for x in arr]  # new list of size n\n\n"
+            "# O(n) space — recursive call stack\n"
+            "def factorial(n):\n"
+            "    if n <= 1:\n"
+            "        return 1\n"
+            "    return n * factorial(n - 1)  # n frames on the call stack"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "What is the time complexity of the following code?\n\n"
+                "```python\n"
+                "def mystery(n):\n"
+                "    count = 0\n"
+                "    i = 1\n"
+                "    while i < n:\n"
+                "        count += 1\n"
+                "        i *= 2\n"
+                "    return count\n"
+                "```"
+            ),
+            options={
+                "A": "O(n)",
+                "B": "O(n²)",
+                "C": "O(log n)",
+                "D": "O(n log n)",
+            },
+            correct="C",
+            explanation=(
+                "The variable `i` doubles each iteration (1, 2, 4, 8, ...). "
+                "It reaches n after log₂(n) steps, so the loop runs O(log n) "
+                "times."
+            ),
+            distractors={
+                "A": "O(n) would require i to increment by 1 each step, not double.",
+                "B": "O(n²) would require nested loops, not a single doubling loop.",
+                "D": "O(n log n) would require an O(n) operation inside the O(log n) loop.",
+            },
+            mcq_type="code_output",
+        ),
+    ]
+
+    return TopicSection(
+        title="Big-O Complexity Analysis",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "Big-O describes the upper bound of growth rate — drop constants and lower-order terms.",
+            "Nested loops multiply: O(n) inside O(n) = O(n²).",
+            "Sequential operations add: O(n) + O(m) = O(n + m).",
+            "Halving patterns (binary search, divide-and-conquer) are O(log n).",
+            "Space complexity counts extra memory used, including the recursive call stack.",
+        ],
+    )
+
+
+# ---------------------------------------------------------------------------
+# Mock test (8-10 MCQs for 15-minute timed practice)
+# ---------------------------------------------------------------------------
+
+def _mock_test() -> list[MCQ]:
+    return [
+        MCQ(
+            question=(
+                "What is the time complexity of accessing an element by "
+                "index in a Python list?"
+            ),
+            options={
+                "A": "O(1)",
+                "B": "O(n)",
+                "C": "O(log n)",
+                "D": "O(n²)",
+            },
+            correct="A",
+            explanation=(
+                "Python lists are backed by dynamic arrays. Accessing an "
+                "element by index is a direct memory offset calculation, "
+                "which takes O(1) time."
+            ),
+            distractors={
+                "B": "O(n) applies to searching for a value, not accessing by index.",
+                "C": "O(log n) applies to binary search, not direct index access.",
+                "D": "O(n²) involves nested operations — simple indexing is constant time.",
+            },
+            mcq_type="complexity",
+        ),
+        MCQ(
+            question=(
+                "What does the following code print?\n\n"
+                "```python\n"
+                "stack = []\n"
+                "stack.append(1)\n"
+                "stack.append(2)\n"
+                "stack.append(3)\n"
+                "stack.pop()\n"
+                "stack.append(4)\n"
+                "print(stack.pop())\n"
+                "```"
+            ),
+            options={
+                "A": "1",
+                "B": "2",
+                "C": "3",
+                "D": "4",
+            },
+            correct="D",
+            explanation=(
+                "After appending 1, 2, 3: stack = [1, 2, 3]. Pop removes 3: "
+                "stack = [1, 2]. Append 4: stack = [1, 2, 4]. Final pop "
+                "removes and returns 4."
+            ),
+            distractors={
+                "A": "1 is at the bottom of the stack and would be the last to be popped.",
+                "B": "2 is the second element; the top element (4) is popped first.",
+                "C": "3 was already popped in the first pop() call.",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question=(
+                "Which traversal of a Binary Search Tree produces elements "
+                "in sorted order?"
+            ),
+            options={
+                "A": "Pre-order (Root, Left, Right)",
+                "B": "Post-order (Left, Right, Root)",
+                "C": "In-order (Left, Root, Right)",
+                "D": "Level-order (BFS)",
+            },
+            correct="C",
+            explanation=(
+                "In-order traversal visits the left subtree, then the root, "
+                "then the right subtree. Due to the BST property (left < root "
+                "< right), this produces values in ascending order."
+            ),
+            distractors={
+                "A": "Pre-order visits the root first, which doesn't produce sorted output.",
+                "B": "Post-order visits the root last, which doesn't produce sorted output.",
+                "D": "Level-order visits by depth level, not by value order.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What is the space complexity of Merge Sort when sorting "
+                "an array of n elements?"
+            ),
+            options={
+                "A": "O(1)",
+                "B": "O(log n)",
+                "C": "O(n)",
+                "D": "O(n log n)",
+            },
+            correct="C",
+            explanation=(
+                "Merge Sort requires O(n) auxiliary space for the temporary "
+                "arrays used during the merge step. The recursion stack adds "
+                "O(log n), but O(n) dominates."
+            ),
+            distractors={
+                "A": "O(1) would mean in-place sorting; Merge Sort needs auxiliary arrays.",
+                "B": "O(log n) is the recursion depth, but the merge arrays use O(n).",
+                "D": "O(n log n) is the time complexity, not the space complexity.",
+            },
+            mcq_type="complexity",
+        ),
+        MCQ(
+            question=(
+                "What does the following code output?\n\n"
+                "```python\n"
+                "d = {'a': 1, 'b': 2, 'c': 3}\n"
+                "d['b'] = 20\n"
+                "d['d'] = 4\n"
+                "del d['a']\n"
+                "print(list(d.keys()))\n"
+                "```"
+            ),
+            options={
+                "A": "['a', 'b', 'c', 'd']",
+                "B": "['b', 'c', 'd']",
+                "C": "['b', 'd', 'c']",
+                "D": "['c', 'b', 'd']",
+            },
+            correct="B",
+            explanation=(
+                "Starting with keys ['a', 'b', 'c']. Update 'b' (no key "
+                "change). Add 'd': keys = ['a', 'b', 'c', 'd']. Delete 'a': "
+                "keys = ['b', 'c', 'd']. Python 3.7+ dicts maintain insertion "
+                "order."
+            ),
+            distractors={
+                "A": "'a' was deleted, so it should not appear in the keys.",
+                "C": "Python dicts maintain insertion order — 'c' was inserted before 'd'.",
+                "D": "The order follows insertion, not alphabetical or any other sorting.",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question=(
+                "Which algorithm would you choose to find the shortest path "
+                "in an unweighted graph?"
+            ),
+            options={
+                "A": "Depth-First Search (DFS)",
+                "B": "Breadth-First Search (BFS)",
+                "C": "Binary Search",
+                "D": "Quick Sort",
+            },
+            correct="B",
+            explanation=(
+                "BFS explores vertices level by level, so the first time it "
+                "reaches a vertex, it has found the shortest path (in terms "
+                "of number of edges) from the source. DFS does not guarantee "
+                "shortest paths."
+            ),
+            distractors={
+                "A": "DFS explores deeply first and may find a longer path before the shortest.",
+                "C": "Binary Search works on sorted arrays, not graphs.",
+                "D": "Quick Sort is a sorting algorithm, not a graph traversal algorithm.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What is the time complexity of the following function?\n\n"
+                "```python\n"
+                "def func(arr):\n"
+                "    n = len(arr)\n"
+                "    for i in range(n):\n"
+                "        for j in range(n):\n"
+                "            if arr[i] == arr[j]:\n"
+                "                print(i, j)\n"
+                "```"
+            ),
+            options={
+                "A": "O(n)",
+                "B": "O(n log n)",
+                "C": "O(n²)",
+                "D": "O(2ⁿ)",
+            },
+            correct="C",
+            explanation=(
+                "There are two nested loops, each iterating n times. The "
+                "inner operation (comparison and print) is O(1). Total: "
+                "n × n = O(n²)."
+            ),
+            distractors={
+                "A": "O(n) would require a single loop, not nested loops.",
+                "B": "O(n log n) would require the inner loop to halve each time.",
+                "D": "O(2ⁿ) applies to exponential algorithms like naive recursion, not nested loops.",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question=(
+                "Which sorting algorithm is NOT stable?"
+            ),
+            options={
+                "A": "Merge Sort",
+                "B": "Insertion Sort",
+                "C": "Bubble Sort",
+                "D": "Selection Sort",
+            },
+            correct="D",
+            explanation=(
+                "Selection Sort is not stable because it swaps non-adjacent "
+                "elements. For example, sorting [3a, 3b, 1] — Selection Sort "
+                "swaps 3a with 1, changing the relative order of equal "
+                "elements. Merge Sort, Insertion Sort, and Bubble Sort are "
+                "all stable."
+            ),
+            distractors={
+                "A": "Merge Sort is stable — it preserves order of equal elements during merge.",
+                "B": "Insertion Sort is stable — it shifts elements without swapping non-adjacent ones.",
+                "C": "Bubble Sort is stable — it only swaps adjacent elements when strictly out of order.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What is the result of performing binary search for the "
+                "value 6 in the array [1, 3, 5, 7, 9]?"
+            ),
+            options={
+                "A": "Returns index 2",
+                "B": "Returns index 3",
+                "C": "Returns -1 (not found)",
+                "D": "Returns index 5",
+            },
+            correct="C",
+            explanation=(
+                "The value 6 is not present in the array [1, 3, 5, 7, 9]. "
+                "Binary search will narrow down between indices 2 (value 5) "
+                "and 3 (value 7), find no match, and return -1."
+            ),
+            distractors={
+                "A": "Index 2 holds value 5, not 6.",
+                "B": "Index 3 holds value 7, not 6.",
+                "D": "Index 5 is out of bounds for a 5-element array (indices 0-4).",
+            },
+            mcq_type="code_output",
+        ),
+        MCQ(
+            question=(
+                "Which command correctly sorts a Python list in descending "
+                "order?"
+            ),
+            options={
+                "A": "arr.sort(reverse=True)",
+                "B": "arr.sort(descending=True)",
+                "C": "sorted(arr, order='desc')",
+                "D": "arr.reverse_sort()",
+            },
+            correct="A",
+            explanation=(
+                "`list.sort(reverse=True)` sorts the list in-place in "
+                "descending order. The `reverse` parameter is the correct "
+                "keyword argument for both `sort()` and `sorted()`."
+            ),
+            distractors={
+                "B": "There is no `descending` parameter — the correct parameter is `reverse`.",
+                "C": "There is no `order` parameter in `sorted()` — use `reverse=True`.",
+                "D": "`reverse_sort()` is not a built-in list method.",
+            },
+            mcq_type="command",
+        ),
+    ]
+
+
+# ---------------------------------------------------------------------------
+# Cheat sheet
+# ---------------------------------------------------------------------------
+
+def _cheat_sheet() -> str:
+    return (
+        "## DSA Quick-Reference Cheat Sheet\n\n"
+        "### Big-O Complexity Table — Data Structures\n\n"
+        "| Data Structure | Access | Search | Insert | Delete | Space |\n"
+        "|----------------|--------|--------|--------|--------|-------|\n"
+        "| Array (list) | O(1) | O(n) | O(n)* | O(n) | O(n) |\n"
+        "| Linked List | O(n) | O(n) | O(1)** | O(n) | O(n) |\n"
+        "| Stack | O(n) | O(n) | O(1) | O(1) | O(n) |\n"
+        "| Queue (deque) | O(n) | O(n) | O(1) | O(1) | O(n) |\n"
+        "| Hash Table (dict) | N/A | O(1)† | O(1)† | O(1)† | O(n) |\n"
+        "| BST (balanced) | O(log n) | O(log n) | O(log n) | O(log n) | O(n) |\n"
+        "| BST (worst) | O(n) | O(n) | O(n) | O(n) | O(n) |\n\n"
+        "\\* Array insert at end is amortized O(1); insert at arbitrary index is O(n).  \n"
+        "\\*\\* Linked list insert at head is O(1); insert at arbitrary position is O(n).  \n"
+        "† Hash table average case; worst case is O(n) due to collisions.\n\n"
+        "### Big-O Complexity Table — Sorting Algorithms\n\n"
+        "| Algorithm | Best | Average | Worst | Space | Stable |\n"
+        "|-----------|------|---------|-------|-------|--------|\n"
+        "| Bubble Sort | O(n) | O(n²) | O(n²) | O(1) | Yes |\n"
+        "| Selection Sort | O(n²) | O(n²) | O(n²) | O(1) | No |\n"
+        "| Insertion Sort | O(n) | O(n²) | O(n²) | O(1) | Yes |\n"
+        "| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | Yes |\n"
+        "| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) | No |\n"
+        "| Timsort (Python) | O(n) | O(n log n) | O(n log n) | O(n) | Yes |\n\n"
+        "### Common Patterns\n\n"
+        "| Pattern | When to Use | Complexity |\n"
+        "|---------|-------------|------------|\n"
+        "| Two Pointers | Sorted array, pair finding | O(n) |\n"
+        "| Sliding Window | Subarray/substring problems | O(n) |\n"
+        "| Hash Map Counting | Frequency, duplicates, two-sum | O(n) |\n"
+        "| Binary Search | Sorted data, monotonic condition | O(log n) |\n"
+        "| BFS | Shortest path (unweighted), level-order | O(V + E) |\n"
+        "| DFS | Cycle detection, connected components | O(V + E) |\n"
+        "| Divide & Conquer | Merge sort, quick sort | O(n log n) |\n\n"
+        "### Key Reminders\n\n"
+        "- `list.pop(0)` is O(n) — use `collections.deque.popleft()` for O(1).\n"
+        "- Python `dict` keys must be hashable (immutable).\n"
+        "- In-order traversal of BST = sorted output.\n"
+        "- Binary search requires sorted input.\n"
+        "- Always check edge cases: empty input, single element, duplicates."
+    )
