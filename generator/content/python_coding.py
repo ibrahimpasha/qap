@@ -1,11 +1,11 @@
-"""Python coding content module — Python interview prep for NVIDIA SDET."""
+"""Python coding content module — Python interview prep for nip SDET."""
 
 from __future__ import annotations
 
-from generator.models import NotebookSpec, PracticeProblem, TopicSection
+from generator.models import MCQ, NotebookSpec, PracticeProblem, TopicSection
 
 
-def get_python_spec() -> NotebookSpec:
+def get_python_coding_spec() -> NotebookSpec:
     """Return a complete NotebookSpec for the Python coding notebook."""
     return NotebookSpec(
         title="Python Coding — Interview Prep",
@@ -66,7 +66,7 @@ def _beginner_sections() -> list[TopicSection]:
 
 
 def _string_manipulation() -> TopicSection:
-    """Beginner: String manipulation with NVIDIA data-validation example."""
+    """Beginner: String manipulation with nip data-validation example."""
     explanation = (
         "### String Manipulation\n\n"
         "Strings in Python are immutable sequences of characters. Mastering "
@@ -81,11 +81,11 @@ def _string_manipulation() -> TopicSection:
         "- `upper()` / `lower()` / `title()` — case conversion\n\n"
         "**f-strings (Python 3.6+):**\n"
         "```python\n"
-        "name = 'NVIDIA'\n"
+        "name = 'nip'\n"
         "print(f'Company: {name}, Length: {len(name)}')\n"
         "```\n\n"
         "**String slicing:** `s[start:stop:step]` — works like list slicing.\n\n"
-        "**NVIDIA context:** String manipulation is critical for parsing test "
+        "**nip context:** String manipulation is critical for parsing test "
         "output, validating configuration data, and processing log files."
     )
 
@@ -102,10 +102,10 @@ def _string_manipulation() -> TopicSection:
             "# join — combine a list into a string\n"
             "print(' | '.join(fields))  # 'gpu_0 | Tesla V100 | passed | 98.5'\n\n"
             "# replace\n"
-            "path = '/var/log/nvidia/test.log'\n"
-            "print(path.replace('/var/log', '/tmp'))  # '/tmp/nvidia/test.log'\n\n"
+            "path = '/var/log/nip/test.log'\n"
+            "print(path.replace('/var/log', '/tmp'))  # '/tmp/nip/test.log'\n\n"
             "# find vs index\n"
-            "print(path.find('nvidia'))    # 9\n"
+            "print(path.find('nip'))    # 9\n"
             "print(path.find('amd'))       # -1  (not found, no exception)\n\n"
             "# f-strings with expressions\n"
             "gpu_count = 8\n"
@@ -113,13 +113,13 @@ def _string_manipulation() -> TopicSection:
         ),
         (
             "# --- String slicing ---\n"
-            "s = 'NVIDIA_SDET_2024'\n\n"
-            "print(s[0:6])       # 'NVIDIA'\n"
+            "s = 'nip_SDET_2024'\n\n"
+            "print(s[0:6])       # 'nip'\n"
             "print(s[7:11])      # 'SDET'\n"
             "print(s[-4:])       # '2024'\n"
             "print(s[::-1])      # '4202_TEDS_AIDIVN'  (reversed)\n\n"
             "# Check prefix/suffix\n"
-            "print(s.startswith('NVIDIA'))  # True\n"
+            "print(s.startswith('nip'))  # True\n"
             "print(s.endswith('2024'))      # True\n\n"
             "# Count occurrences\n"
             "log = 'ERROR: disk full. ERROR: timeout. WARNING: slow.'\n"
@@ -170,6 +170,103 @@ def _string_manipulation() -> TopicSection:
             hints=[
                 "Split the string on '-' and check each part separately.",
                 "Use str.isalpha(), str.isdigit(), str.isalnum(), str.isupper().",
+            ],
+        ),
+        PracticeProblem(
+            title="Reverse Words in a String",
+            statement=(
+                "Given a string of words separated by spaces, return the "
+                "string with the words in reverse order. Multiple spaces "
+                "between words should be collapsed to a single space, and "
+                "leading/trailing spaces should be removed."
+            ),
+            function_signature="def reverse_words(s: str) -> str:",
+            examples=[
+                {"input": "'  hello world  '", "output": "'world hello'"},
+                {"input": "'the sky is blue'", "output": "'blue is sky the'"},
+                {"input": "'a good   example'", "output": "'example good a'"},
+            ],
+            solution_code=(
+                "def reverse_words(s: str) -> str:\n"
+                "    \"\"\"Reverse words in a string, collapsing extra spaces.\"\"\"\n"
+                "    return ' '.join(s.split()[::-1])"
+            ),
+            test_code=(
+                "assert reverse_words('  hello world  ') == 'world hello'\n"
+                "assert reverse_words('the sky is blue') == 'blue is sky the'\n"
+                "assert reverse_words('a good   example') == 'example good a'\n"
+                "assert reverse_words('  ') == ''\n"
+                "assert reverse_words('single') == 'single'\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "s.split() with no argument splits on any whitespace and removes empty strings.",
+                "Reverse the resulting list with [::-1], then join with a single space.",
+            ],
+        ),
+        PracticeProblem(
+            title="Count Character Frequency",
+            statement=(
+                "Write a function that returns a dictionary mapping each "
+                "character to its frequency in the input string. Ignore "
+                "spaces and treat uppercase and lowercase as the same character."
+            ),
+            function_signature="def char_frequency(s: str) -> dict[str, int]:",
+            examples=[
+                {"input": "'Hello World'", "output": "{'h': 1, 'e': 1, 'l': 3, 'o': 2, 'w': 1, 'r': 1, 'd': 1}"},
+                {"input": "''", "output": "{}"},
+            ],
+            solution_code=(
+                "def char_frequency(s: str) -> dict[str, int]:\n"
+                "    \"\"\"Count frequency of each character (case-insensitive, no spaces).\"\"\"\n"
+                "    freq = {}\n"
+                "    for ch in s.lower():\n"
+                "        if ch != ' ':\n"
+                "            freq[ch] = freq.get(ch, 0) + 1\n"
+                "    return freq"
+            ),
+            test_code=(
+                "assert char_frequency('Hello World') == {'h': 1, 'e': 1, 'l': 3, 'o': 2, 'w': 1, 'r': 1, 'd': 1}\n"
+                "assert char_frequency('') == {}\n"
+                "assert char_frequency('   ') == {}\n"
+                "assert char_frequency('aA') == {'a': 2}\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Convert to lowercase first with s.lower().",
+                "Use dict.get(key, 0) to safely increment counts.",
+            ],
+        ),
+        PracticeProblem(
+            title="Is Palindrome",
+            statement=(
+                "Write a function that checks if a string is a palindrome. "
+                "Consider only alphanumeric characters and ignore case. "
+                "Return True if it is a palindrome, False otherwise."
+            ),
+            function_signature="def is_palindrome(s: str) -> bool:",
+            examples=[
+                {"input": "'A man, a plan, a canal: Panama'", "output": "True"},
+                {"input": "'race a car'", "output": "False"},
+                {"input": "' '", "output": "True"},
+            ],
+            solution_code=(
+                "def is_palindrome(s: str) -> bool:\n"
+                "    \"\"\"Check if string is a palindrome (alphanumeric only, case-insensitive).\"\"\"\n"
+                "    cleaned = ''.join(ch.lower() for ch in s if ch.isalnum())\n"
+                "    return cleaned == cleaned[::-1]"
+            ),
+            test_code=(
+                "assert is_palindrome('A man, a plan, a canal: Panama') == True\n"
+                "assert is_palindrome('race a car') == False\n"
+                "assert is_palindrome(' ') == True\n"
+                "assert is_palindrome('') == True\n"
+                "assert is_palindrome('Was it a car or a cat I saw?') == True\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Filter to alphanumeric characters with ch.isalnum(), then lowercase.",
+                "Compare the cleaned string to its reverse with [::-1].",
             ],
         ),
     ]
@@ -294,6 +391,102 @@ def _list_comprehensions() -> TopicSection:
             hints=[
                 "Use a list comprehension to filter, then sort with a key function.",
                 "Extract names after sorting with another comprehension.",
+            ],
+        ),
+        PracticeProblem(
+            title="Flatten and Deduplicate",
+            statement=(
+                "Given a list of lists of integers, return a sorted list of "
+                "unique integers from all the sublists combined."
+            ),
+            function_signature="def flatten_unique(lists: list[list[int]]) -> list[int]:",
+            examples=[
+                {"input": "[[3, 1, 2], [2, 4, 1], [5]]", "output": "[1, 2, 3, 4, 5]"},
+                {"input": "[[1, 1, 1]]", "output": "[1]"},
+                {"input": "[]", "output": "[]"},
+            ],
+            solution_code=(
+                "def flatten_unique(lists: list[list[int]]) -> list[int]:\n"
+                "    \"\"\"Flatten nested lists and return sorted unique values.\"\"\"\n"
+                "    return sorted({val for sublist in lists for val in sublist})"
+            ),
+            test_code=(
+                "assert flatten_unique([[3, 1, 2], [2, 4, 1], [5]]) == [1, 2, 3, 4, 5]\n"
+                "assert flatten_unique([[1, 1, 1]]) == [1]\n"
+                "assert flatten_unique([]) == []\n"
+                "assert flatten_unique([[], [1], [2, 3]]) == [1, 2, 3]\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Use a nested comprehension: `val for sublist in lists for val in sublist`.",
+                "Wrap in set() to deduplicate, then sorted() to sort.",
+            ],
+        ),
+        PracticeProblem(
+            title="Transpose a Matrix",
+            statement=(
+                "Given a 2D matrix (list of lists), return its transpose. "
+                "The transpose swaps rows and columns: element at [i][j] "
+                "moves to [j][i]."
+            ),
+            function_signature="def transpose(matrix: list[list[int]]) -> list[list[int]]:",
+            examples=[
+                {"input": "[[1, 2, 3], [4, 5, 6]]", "output": "[[1, 4], [2, 5], [3, 6]]"},
+                {"input": "[[1, 2], [3, 4], [5, 6]]", "output": "[[1, 3, 5], [2, 4, 6]]"},
+            ],
+            solution_code=(
+                "def transpose(matrix: list[list[int]]) -> list[list[int]]:\n"
+                "    \"\"\"Return the transpose of a 2D matrix using zip.\"\"\"\n"
+                "    if not matrix:\n"
+                "        return []\n"
+                "    return [list(row) for row in zip(*matrix)]"
+            ),
+            test_code=(
+                "assert transpose([[1, 2, 3], [4, 5, 6]]) == [[1, 4], [2, 5], [3, 6]]\n"
+                "assert transpose([[1, 2], [3, 4], [5, 6]]) == [[1, 3, 5], [2, 4, 6]]\n"
+                "assert transpose([]) == []\n"
+                "assert transpose([[1]]) == [[1]]\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "zip(*matrix) unpacks the matrix rows and zips corresponding columns.",
+                "Wrap each zip result in list() to get a list of lists.",
+            ],
+        ),
+        PracticeProblem(
+            title="Word Length Dictionary",
+            statement=(
+                "Given a list of words, return a dictionary mapping each "
+                "word length to the list of words with that length. "
+                "Words should appear in the order they were encountered."
+            ),
+            function_signature="def group_by_length(words: list[str]) -> dict[int, list[str]]:",
+            examples=[
+                {
+                    "input": "['cat', 'dog', 'elephant', 'ant', 'ox']",
+                    "output": "{3: ['cat', 'dog', 'ant'], 8: ['elephant'], 2: ['ox']}",
+                },
+            ],
+            solution_code=(
+                "def group_by_length(words: list[str]) -> dict[int, list[str]]:\n"
+                "    \"\"\"Group words by their length.\"\"\"\n"
+                "    result = {}\n"
+                "    for word in words:\n"
+                "        length = len(word)\n"
+                "        result.setdefault(length, []).append(word)\n"
+                "    return result"
+            ),
+            test_code=(
+                "result = group_by_length(['cat', 'dog', 'elephant', 'ant', 'ox'])\n"
+                "assert result[3] == ['cat', 'dog', 'ant']\n"
+                "assert result[8] == ['elephant']\n"
+                "assert result[2] == ['ox']\n"
+                "assert group_by_length([]) == {}\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Use dict.setdefault(key, []) to initialize missing keys.",
+                "Or use defaultdict(list) from collections.",
             ],
         ),
     ]
@@ -423,6 +616,117 @@ def _dictionary_operations() -> TopicSection:
                 "defaultdict(list) makes grouping easy.",
             ],
         ),
+        PracticeProblem(
+            title="Two Sum",
+            statement=(
+                "Given a list of integers and a target sum, return the indices "
+                "of the two numbers that add up to the target. Each input has "
+                "exactly one solution, and you may not use the same element twice."
+            ),
+            function_signature="def two_sum(nums: list[int], target: int) -> list[int]:",
+            examples=[
+                {"input": "[2, 7, 11, 15], 9", "output": "[0, 1]"},
+                {"input": "[3, 2, 4], 6", "output": "[1, 2]"},
+            ],
+            solution_code=(
+                "def two_sum(nums: list[int], target: int) -> list[int]:\n"
+                "    \"\"\"Find two indices that sum to target using a hash map. O(n).\"\"\"\n"
+                "    seen = {}  # value -> index\n"
+                "    for i, num in enumerate(nums):\n"
+                "        complement = target - num\n"
+                "        if complement in seen:\n"
+                "            return [seen[complement], i]\n"
+                "        seen[num] = i\n"
+                "    return []"
+            ),
+            test_code=(
+                "assert two_sum([2, 7, 11, 15], 9) == [0, 1]\n"
+                "assert two_sum([3, 2, 4], 6) == [1, 2]\n"
+                "assert two_sum([3, 3], 6) == [0, 1]\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "For each number, check if its complement (target - num) is already in a dict.",
+                "Store each number's index in the dict as you iterate.",
+            ],
+        ),
+        PracticeProblem(
+            title="Word Frequency Counter",
+            statement=(
+                "Write a function that counts the frequency of each word in "
+                "a sentence. Words are case-insensitive and punctuation should "
+                "be stripped. Return a dict mapping word to count, sorted by "
+                "frequency (highest first)."
+            ),
+            function_signature="def word_frequency(sentence: str) -> dict[str, int]:",
+            examples=[
+                {
+                    "input": "'The cat sat on the mat. The cat!'",
+                    "output": "{'the': 3, 'cat': 2, 'sat': 1, 'on': 1, 'mat': 1}",
+                },
+            ],
+            solution_code=(
+                "import re\n\n"
+                "def word_frequency(sentence: str) -> dict[str, int]:\n"
+                "    \"\"\"Count word frequencies, case-insensitive, punctuation stripped.\"\"\"\n"
+                "    words = re.findall(r'[a-z]+', sentence.lower())\n"
+                "    freq = {}\n"
+                "    for word in words:\n"
+                "        freq[word] = freq.get(word, 0) + 1\n"
+                "    return dict(sorted(freq.items(), key=lambda x: x[1], reverse=True))"
+            ),
+            test_code=(
+                "import re\n"
+                "result = word_frequency('The cat sat on the mat. The cat!')\n"
+                "assert result['the'] == 3\n"
+                "assert result['cat'] == 2\n"
+                "assert result['sat'] == 1\n"
+                "# Verify sorted by frequency\n"
+                "counts = list(result.values())\n"
+                "assert counts == sorted(counts, reverse=True)\n"
+                "assert word_frequency('') == {}\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Use re.findall(r'[a-z]+', sentence.lower()) to extract words.",
+                "Sort the dict items by value (count) in descending order.",
+            ],
+        ),
+        PracticeProblem(
+            title="Merge Dictionaries with Conflict Resolution",
+            statement=(
+                "Write a function that merges a list of dictionaries. If the "
+                "same key appears in multiple dicts, sum the values (assuming "
+                "all values are integers). Return the merged dictionary."
+            ),
+            function_signature="def merge_dicts(dicts: list[dict]) -> dict:",
+            examples=[
+                {
+                    "input": "[{'a': 1, 'b': 2}, {'b': 3, 'c': 4}, {'a': 5}]",
+                    "output": "{'a': 6, 'b': 5, 'c': 4}",
+                },
+            ],
+            solution_code=(
+                "def merge_dicts(dicts: list[dict]) -> dict:\n"
+                "    \"\"\"Merge dicts, summing values for duplicate keys.\"\"\"\n"
+                "    result = {}\n"
+                "    for d in dicts:\n"
+                "        for key, value in d.items():\n"
+                "            result[key] = result.get(key, 0) + value\n"
+                "    return result"
+            ),
+            test_code=(
+                "assert merge_dicts([{'a': 1, 'b': 2}, {'b': 3, 'c': 4}, {'a': 5}]) == {'a': 6, 'b': 5, 'c': 4}\n"
+                "assert merge_dicts([]) == {}\n"
+                "assert merge_dicts([{'x': 10}]) == {'x': 10}\n"
+                "assert merge_dicts([{'a': 1}, {'a': 2}, {'a': 3}]) == {'a': 6}\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Iterate over each dict and each key-value pair.",
+                "Use result.get(key, 0) to safely accumulate values.",
+            ],
+        ),
     ]
 
     return TopicSection(
@@ -442,7 +746,7 @@ def _dictionary_operations() -> TopicSection:
 
 
 def _file_io_basics() -> TopicSection:
-    """Beginner: File I/O basics with NVIDIA log-parser example."""
+    """Beginner: File I/O basics with nip log-parser example."""
     explanation = (
         "### File I/O Basics\n\n"
         "Reading and writing files is a core skill for any SDET — from "
@@ -569,6 +873,68 @@ def _file_io_basics() -> TopicSection:
             hints=[
                 "Split the log text on newlines, then split each line on ': '.",
                 "Use str.partition(': ') to safely split into level and message.",
+            ],
+        ),
+        PracticeProblem(
+            title="Parse nvidia-smi CSV Output",
+            statement=(
+                "Write a function that parses the CSV output of:\n"
+                "`nvidia-smi --query-gpu=index,name,temperature.gpu,utilization.gpu,"
+                "memory.used,memory.total --format=csv,noheader,nounits`\n\n"
+                "Each line has 6 comma-separated fields. Return a list of dicts "
+                "with keys: 'index' (int), 'name' (str), 'temp_c' (int), "
+                "'util_pct' (int), 'mem_used_mb' (int), 'mem_total_mb' (int).\n\n"
+                "Also write a `find_hot_gpus(gpus, threshold=85)` function that "
+                "returns a list of GPU indices where temperature exceeds the threshold."
+            ),
+            function_signature=(
+                "def parse_nvidia_smi(output: str) -> list[dict]:\n\n"
+                "def find_hot_gpus(gpus: list[dict], threshold: int = 85) -> list[int]:"
+            ),
+            examples=[
+                {
+                    "input": "'0, A100-SXM4, 38, 5, 2048, 81920\\n1, A100-SXM4, 91, 98, 81920, 81920'",
+                    "output": "[{'index': 0, 'temp_c': 38, ...}, {'index': 1, 'temp_c': 91, ...}]",
+                },
+                {"input": "find_hot_gpus(gpus, threshold=85)", "output": "[1]"},
+            ],
+            solution_code=(
+                "def parse_nvidia_smi(output: str) -> list[dict]:\n"
+                "    \"\"\"Parse nvidia-smi CSV output into a list of GPU stat dicts.\"\"\"\n"
+                "    gpus = []\n"
+                "    for line in output.strip().split('\\n'):\n"
+                "        if not line.strip():\n"
+                "            continue\n"
+                "        parts = [p.strip() for p in line.split(',')]\n"
+                "        gpus.append({\n"
+                "            'index':        int(parts[0]),\n"
+                "            'name':         parts[1],\n"
+                "            'temp_c':       int(parts[2]),\n"
+                "            'util_pct':     int(parts[3]),\n"
+                "            'mem_used_mb':  int(parts[4]),\n"
+                "            'mem_total_mb': int(parts[5]),\n"
+                "        })\n"
+                "    return gpus\n\n"
+                "def find_hot_gpus(gpus: list[dict], threshold: int = 85) -> list[int]:\n"
+                "    \"\"\"Return indices of GPUs exceeding the temperature threshold.\"\"\"\n"
+                "    return [g['index'] for g in gpus if g['temp_c'] > threshold]"
+            ),
+            test_code=(
+                "smi_output = '0, A100-SXM4-80GB, 38, 5, 2048, 81920\\n1, A100-SXM4-80GB, 91, 98, 81920, 81920'\n"
+                "gpus = parse_nvidia_smi(smi_output)\n"
+                "assert len(gpus) == 2\n"
+                "assert gpus[0]['index'] == 0\n"
+                "assert gpus[0]['temp_c'] == 38\n"
+                "assert gpus[1]['util_pct'] == 98\n"
+                "assert gpus[1]['mem_used_mb'] == 81920\n"
+                "assert find_hot_gpus(gpus, threshold=85) == [1]\n"
+                "assert find_hot_gpus(gpus, threshold=95) == []\n"
+                "assert parse_nvidia_smi('') == []\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Split each line on ',' and strip whitespace from each field.",
+                "Cast fields to int where needed: index, temp_c, util_pct, mem_used_mb, mem_total_mb.",
             ],
         ),
     ]
@@ -758,7 +1124,7 @@ def _mid_level_sections() -> list[TopicSection]:
 
 
 def _oop_section() -> TopicSection:
-    """Mid-Level: OOP with NVIDIA test-automation-script pattern."""
+    """Mid-Level: OOP with nip test-automation-script pattern."""
     explanation = (
         "### Object-Oriented Programming\n\n"
         "OOP is the backbone of test frameworks and automation scripts. "
@@ -781,7 +1147,7 @@ def _oop_section() -> TopicSection:
         "        return result\n"
         "    return wrapper\n"
         "```\n\n"
-        "**NVIDIA context:** Test automation frameworks use OOP heavily — "
+        "**nip context:** Test automation frameworks use OOP heavily — "
         "base test classes, page objects, fixture managers."
     )
 
@@ -906,6 +1272,174 @@ def _oop_section() -> TopicSection:
                 "Wrap func() in try/except to handle exceptions as failures.",
             ],
         ),
+        PracticeProblem(
+            title="Shape Hierarchy with Polymorphism",
+            statement=(
+                "Implement a `Shape` base class with an abstract `area()` method. "
+                "Then implement `Circle` and `Rectangle` subclasses. Each should "
+                "override `area()` and provide a `__repr__` method. Also add a "
+                "`total_area(shapes)` function that returns the sum of all areas."
+            ),
+            function_signature=(
+                "class Shape:\n"
+                "    def area(self) -> float:\n\n"
+                "class Circle(Shape):\n"
+                "    def __init__(self, radius: float):\n\n"
+                "class Rectangle(Shape):\n"
+                "    def __init__(self, width: float, height: float):\n\n"
+                "def total_area(shapes: list[Shape]) -> float:"
+            ),
+            examples=[
+                {"input": "Circle(5).area()", "output": "78.53981633974483"},
+                {"input": "Rectangle(3, 4).area()", "output": "12.0"},
+                {"input": "total_area([Circle(1), Rectangle(2, 3)])", "output": "9.141592653589793"},
+            ],
+            solution_code=(
+                "import math\n\n"
+                "class Shape:\n"
+                "    \"\"\"Abstract base shape.\"\"\"\n"
+                "    def area(self) -> float:\n"
+                "        raise NotImplementedError('Subclasses must implement area()')\n\n"
+                "class Circle(Shape):\n"
+                "    def __init__(self, radius: float):\n"
+                "        self.radius = radius\n\n"
+                "    def area(self) -> float:\n"
+                "        return math.pi * self.radius ** 2\n\n"
+                "    def __repr__(self) -> str:\n"
+                "        return f'Circle(radius={self.radius})'\n\n"
+                "class Rectangle(Shape):\n"
+                "    def __init__(self, width: float, height: float):\n"
+                "        self.width = width\n"
+                "        self.height = height\n\n"
+                "    def area(self) -> float:\n"
+                "        return self.width * self.height\n\n"
+                "    def __repr__(self) -> str:\n"
+                "        return f'Rectangle(width={self.width}, height={self.height})'\n\n"
+                "def total_area(shapes: list) -> float:\n"
+                "    \"\"\"Sum the areas of all shapes.\"\"\"\n"
+                "    return sum(s.area() for s in shapes)"
+            ),
+            test_code=(
+                "import math\n"
+                "assert abs(Circle(5).area() - math.pi * 25) < 1e-9\n"
+                "assert Rectangle(3, 4).area() == 12.0\n"
+                "assert abs(total_area([Circle(1), Rectangle(2, 3)]) - (math.pi + 6)) < 1e-9\n"
+                "assert total_area([]) == 0\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Use math.pi for the circle area formula.",
+                "total_area can use sum() with a generator expression.",
+            ],
+        ),
+        PracticeProblem(
+            title="Singleton Pattern",
+            statement=(
+                "Implement a `Config` class using the Singleton pattern — "
+                "only one instance should ever exist. The class should store "
+                "key-value settings via `set(key, value)` and retrieve them "
+                "via `get(key, default=None)`. Calling `Config()` multiple "
+                "times should return the same instance."
+            ),
+            function_signature=(
+                "class Config:\n"
+                "    def __new__(cls):\n"
+                "    def set(self, key: str, value) -> None:\n"
+                "    def get(self, key: str, default=None):"
+            ),
+            examples=[
+                {
+                    "input": "c1 = Config(); c2 = Config(); c1 is c2",
+                    "output": "True",
+                },
+            ],
+            solution_code=(
+                "class Config:\n"
+                "    \"\"\"Singleton configuration store.\"\"\"\n"
+                "    _instance = None\n\n"
+                "    def __new__(cls):\n"
+                "        if cls._instance is None:\n"
+                "            cls._instance = super().__new__(cls)\n"
+                "            cls._instance._data = {}\n"
+                "        return cls._instance\n\n"
+                "    def set(self, key: str, value) -> None:\n"
+                "        self._data[key] = value\n\n"
+                "    def get(self, key: str, default=None):\n"
+                "        return self._data.get(key, default)"
+            ),
+            test_code=(
+                "# Reset singleton for testing\n"
+                "Config._instance = None\n"
+                "c1 = Config()\n"
+                "c2 = Config()\n"
+                "assert c1 is c2, 'Should be the same instance'\n"
+                "c1.set('host', 'localhost')\n"
+                "assert c2.get('host') == 'localhost'  # shared state\n"
+                "assert c1.get('missing', 'default') == 'default'\n"
+                "Config._instance = None  # cleanup\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Override __new__ to control instance creation.",
+                "Store the single instance in a class variable _instance.",
+            ],
+        ),
+        PracticeProblem(
+            title="Mixin for Logging",
+            statement=(
+                "Implement a `LogMixin` class that adds logging capability "
+                "to any class via multiple inheritance. It should provide a "
+                "`log(message)` method that stores messages in a list and a "
+                "`get_logs()` method that returns all logged messages. "
+                "Demonstrate with a `Service` class that uses the mixin."
+            ),
+            function_signature=(
+                "class LogMixin:\n"
+                "    def log(self, message: str) -> None:\n"
+                "    def get_logs(self) -> list[str]:\n\n"
+                "class Service(LogMixin):\n"
+                "    def __init__(self, name: str):\n"
+                "    def start(self) -> None:"
+            ),
+            examples=[
+                {
+                    "input": "svc = Service('api'); svc.start(); svc.get_logs()",
+                    "output": "['Service api starting...']",
+                },
+            ],
+            solution_code=(
+                "class LogMixin:\n"
+                "    \"\"\"Mixin that adds logging capability.\"\"\"\n"
+                "    def __init__(self):\n"
+                "        self._logs = []\n\n"
+                "    def log(self, message: str) -> None:\n"
+                "        self._logs.append(message)\n\n"
+                "    def get_logs(self) -> list:\n"
+                "        return list(self._logs)\n\n"
+                "class Service(LogMixin):\n"
+                "    def __init__(self, name: str):\n"
+                "        super().__init__()\n"
+                "        self.name = name\n\n"
+                "    def start(self) -> None:\n"
+                "        self.log(f'Service {self.name} starting...')"
+            ),
+            test_code=(
+                "svc = Service('api')\n"
+                "svc.start()\n"
+                "assert svc.get_logs() == ['Service api starting...']\n"
+                "svc.log('Custom message')\n"
+                "assert len(svc.get_logs()) == 2\n"
+                "# Each instance has its own logs\n"
+                "svc2 = Service('db')\n"
+                "svc2.start()\n"
+                "assert len(svc2.get_logs()) == 1\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Initialize _logs in LogMixin.__init__ and call super().__init__() in Service.",
+                "Return a copy of _logs in get_logs() to prevent external mutation.",
+            ],
+        ),
     ]
 
     return TopicSection(
@@ -1028,6 +1562,129 @@ def _generators_iterators() -> TopicSection:
                 "Slice lst[i:i+size] — Python handles the last short chunk automatically.",
             ],
         ),
+        PracticeProblem(
+            title="Infinite Counter Generator",
+            statement=(
+                "Write a generator function `counter(start=0, step=1)` that "
+                "yields an infinite sequence of numbers starting at `start` "
+                "and incrementing by `step`. Then write a function "
+                "`take(gen, n)` that returns the first n values from any generator."
+            ),
+            function_signature=(
+                "def counter(start: int = 0, step: int = 1):\n\n"
+                "def take(gen, n: int) -> list:"
+            ),
+            examples=[
+                {"input": "take(counter(0, 2), 5)", "output": "[0, 2, 4, 6, 8]"},
+                {"input": "take(counter(10, -3), 4)", "output": "[10, 7, 4, 1]"},
+            ],
+            solution_code=(
+                "def counter(start: int = 0, step: int = 1):\n"
+                "    \"\"\"Infinite counter generator.\"\"\"\n"
+                "    current = start\n"
+                "    while True:\n"
+                "        yield current\n"
+                "        current += step\n\n"
+                "def take(gen, n: int) -> list:\n"
+                "    \"\"\"Take the first n values from a generator.\"\"\"\n"
+                "    return [next(gen) for _ in range(n)]"
+            ),
+            test_code=(
+                "assert take(counter(0, 2), 5) == [0, 2, 4, 6, 8]\n"
+                "assert take(counter(10, -3), 4) == [10, 7, 4, 1]\n"
+                "assert take(counter(), 3) == [0, 1, 2]\n"
+                "assert take(counter(5), 0) == []\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Use `while True: yield current` for an infinite generator.",
+                "take() can use a list comprehension with next(gen).",
+            ],
+        ),
+        PracticeProblem(
+            title="Pipeline with Generator Chaining",
+            statement=(
+                "Implement a data processing pipeline using generators. "
+                "Write three generator functions:\n"
+                "1. `read_lines(text)` — yields each non-empty line\n"
+                "2. `parse_csv_line(lines)` — yields each line split by comma\n"
+                "3. `filter_errors(rows)` — yields rows where the last field is 'ERROR'\n"
+                "Chain them to process a multi-line CSV string."
+            ),
+            function_signature=(
+                "def read_lines(text: str):\n"
+                "def parse_csv_line(lines):\n"
+                "def filter_errors(rows):"
+            ),
+            examples=[
+                {
+                    "input": "'ts1,login,INFO\\nts2,upload,ERROR\\nts3,logout,INFO\\nts4,crash,ERROR'",
+                    "output": "[['ts2', 'upload', 'ERROR'], ['ts4', 'crash', 'ERROR']]",
+                },
+            ],
+            solution_code=(
+                "def read_lines(text: str):\n"
+                "    \"\"\"Yield each non-empty line from text.\"\"\"\n"
+                "    for line in text.split('\\n'):\n"
+                "        if line.strip():\n"
+                "            yield line.strip()\n\n"
+                "def parse_csv_line(lines):\n"
+                "    \"\"\"Yield each line split by comma.\"\"\"\n"
+                "    for line in lines:\n"
+                "        yield line.split(',')\n\n"
+                "def filter_errors(rows):\n"
+                "    \"\"\"Yield rows where the last field is 'ERROR'.\"\"\"\n"
+                "    for row in rows:\n"
+                "        if row and row[-1] == 'ERROR':\n"
+                "            yield row"
+            ),
+            test_code=(
+                "data = 'ts1,login,INFO\\nts2,upload,ERROR\\nts3,logout,INFO\\nts4,crash,ERROR'\n"
+                "pipeline = filter_errors(parse_csv_line(read_lines(data)))\n"
+                "result = list(pipeline)\n"
+                "assert result == [['ts2', 'upload', 'ERROR'], ['ts4', 'crash', 'ERROR']]\n"
+                "assert list(filter_errors(parse_csv_line(read_lines('')))) == []\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Each generator takes another generator as input — chain them together.",
+                "The pipeline is lazy: no data is processed until you iterate.",
+            ],
+        ),
+        PracticeProblem(
+            title="Running Average Generator",
+            statement=(
+                "Write a generator function `running_average(numbers)` that "
+                "takes an iterable of numbers and yields the running average "
+                "after each new number is consumed."
+            ),
+            function_signature="def running_average(numbers):",
+            examples=[
+                {"input": "[1, 2, 3, 4, 5]", "output": "[1.0, 1.5, 2.0, 2.5, 3.0]"},
+                {"input": "[10, 20]", "output": "[10.0, 15.0]"},
+            ],
+            solution_code=(
+                "def running_average(numbers):\n"
+                "    \"\"\"Yield the running average after each new number.\"\"\"\n"
+                "    total = 0\n"
+                "    count = 0\n"
+                "    for num in numbers:\n"
+                "        total += num\n"
+                "        count += 1\n"
+                "        yield total / count"
+            ),
+            test_code=(
+                "assert list(running_average([1, 2, 3, 4, 5])) == [1.0, 1.5, 2.0, 2.5, 3.0]\n"
+                "assert list(running_average([10, 20])) == [10.0, 15.0]\n"
+                "assert list(running_average([])) == []\n"
+                "assert list(running_average([5])) == [5.0]\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Keep a running total and count, yield total/count after each update.",
+                "The generator naturally handles empty input — the for loop just doesn't execute.",
+            ],
+        ),
     ]
 
     return TopicSection(
@@ -1047,7 +1704,7 @@ def _generators_iterators() -> TopicSection:
 
 
 def _regular_expressions() -> TopicSection:
-    """Mid-Level: Regular expressions with NVIDIA log-parser example."""
+    """Mid-Level: Regular expressions with nip log-parser example."""
     explanation = (
         "### Regular Expressions\n\n"
         "The `re` module provides pattern matching for strings — essential "
@@ -1064,7 +1721,7 @@ def _regular_expressions() -> TopicSection:
         "- `^` — start, `$` — end\n"
         "- `(...)` — capture group, `(?:...)` — non-capturing group\n"
         "- `{n,m}` — between n and m repetitions\n\n"
-        "**NVIDIA context:** Regex is used heavily for parsing test logs, "
+        "**nip context:** Regex is used heavily for parsing test logs, "
         "extracting GPU metrics, and validating command output."
     )
 
@@ -1103,7 +1760,7 @@ def _regular_expressions() -> TopicSection:
             "    print(f\"Message: {m.group('message')}\")  # CUDA init failed\n\n"
             "# Validate email format\n"
             "email_re = re.compile(r'^[\\w.+-]+@[\\w-]+\\.[\\w.]+$')\n"
-            "print(bool(email_re.match('user@nvidia.com')))  # True\n"
+            "print(bool(email_re.match('user@nip.com')))  # True\n"
             "print(bool(email_re.match('invalid@')))          # False"
         ),
     ]
@@ -1395,6 +2052,126 @@ def _common_algorithms() -> TopicSection:
             hints=[
                 "Use a dict to track the last index of each character.",
                 "Move left pointer past the duplicate when one is found.",
+            ],
+        ),
+        PracticeProblem(
+            title="Container With Most Water (Two Pointers)",
+            statement=(
+                "Given a list of non-negative integers representing heights of "
+                "vertical lines, find two lines that together with the x-axis "
+                "form a container that holds the most water. Return the maximum "
+                "amount of water. Use the two-pointer technique."
+            ),
+            function_signature="def max_water(heights: list[int]) -> int:",
+            examples=[
+                {"input": "[1, 8, 6, 2, 5, 4, 8, 3, 7]", "output": "49"},
+                {"input": "[1, 1]", "output": "1"},
+            ],
+            solution_code=(
+                "def max_water(heights: list[int]) -> int:\n"
+                "    \"\"\"Two-pointer approach — O(n) time.\"\"\"\n"
+                "    left, right = 0, len(heights) - 1\n"
+                "    max_vol = 0\n"
+                "    while left < right:\n"
+                "        width = right - left\n"
+                "        height = min(heights[left], heights[right])\n"
+                "        max_vol = max(max_vol, width * height)\n"
+                "        # Move the shorter side inward\n"
+                "        if heights[left] < heights[right]:\n"
+                "            left += 1\n"
+                "        else:\n"
+                "            right -= 1\n"
+                "    return max_vol"
+            ),
+            test_code=(
+                "assert max_water([1, 8, 6, 2, 5, 4, 8, 3, 7]) == 49\n"
+                "assert max_water([1, 1]) == 1\n"
+                "assert max_water([4, 3, 2, 1, 4]) == 16\n"
+                "assert max_water([1, 2, 1]) == 2\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Start with pointers at both ends. Volume = width * min(height_left, height_right).",
+                "Always move the pointer with the shorter height inward.",
+            ],
+        ),
+        PracticeProblem(
+            title="Coin Change (Recursion + Memoization)",
+            statement=(
+                "Given a list of coin denominations and a target amount, "
+                "return the minimum number of coins needed to make up the "
+                "amount. If it's not possible, return -1. Use recursion with "
+                "memoization."
+            ),
+            function_signature="def coin_change(coins: list[int], amount: int) -> int:",
+            examples=[
+                {"input": "[1, 5, 11], 15", "output": "3"},
+                {"input": "[2], 3", "output": "-1"},
+                {"input": "[1, 2, 5], 11", "output": "3"},
+            ],
+            solution_code=(
+                "from functools import lru_cache\n\n"
+                "def coin_change(coins: list[int], amount: int) -> int:\n"
+                "    \"\"\"Minimum coins to make amount using memoized recursion.\"\"\"\n"
+                "    @lru_cache(maxsize=None)\n"
+                "    def dp(remaining: int) -> int:\n"
+                "        if remaining == 0:\n"
+                "            return 0\n"
+                "        if remaining < 0:\n"
+                "            return float('inf')\n"
+                "        return min(dp(remaining - c) + 1 for c in coins)\n\n"
+                "    result = dp(amount)\n"
+                "    return result if result != float('inf') else -1"
+            ),
+            test_code=(
+                "from functools import lru_cache\n"
+                "assert coin_change([1, 5, 11], 15) == 3\n"
+                "assert coin_change([2], 3) == -1\n"
+                "assert coin_change([1, 2, 5], 11) == 3\n"
+                "assert coin_change([1], 0) == 0\n"
+                "assert coin_change([1, 2, 5], 0) == 0\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "Define a recursive helper dp(remaining) that returns min coins for that amount.",
+                "Use @lru_cache to memoize — without it, this is exponential time.",
+            ],
+        ),
+        PracticeProblem(
+            title="Maximum Subarray Sum (Kadane's Algorithm)",
+            statement=(
+                "Given an integer array, find the contiguous subarray with "
+                "the largest sum and return its sum. The array may contain "
+                "negative numbers. (Kadane's algorithm — O(n))"
+            ),
+            function_signature="def max_subarray(nums: list[int]) -> int:",
+            examples=[
+                {"input": "[-2, 1, -3, 4, -1, 2, 1, -5, 4]", "output": "6"},
+                {"input": "[1]", "output": "1"},
+                {"input": "[-1, -2, -3]", "output": "-1"},
+            ],
+            solution_code=(
+                "def max_subarray(nums: list[int]) -> int:\n"
+                "    \"\"\"Kadane's algorithm — O(n) time, O(1) space.\"\"\"\n"
+                "    max_sum = nums[0]\n"
+                "    current_sum = nums[0]\n"
+                "    for num in nums[1:]:\n"
+                "        # Either extend the current subarray or start fresh\n"
+                "        current_sum = max(num, current_sum + num)\n"
+                "        max_sum = max(max_sum, current_sum)\n"
+                "    return max_sum"
+            ),
+            test_code=(
+                "assert max_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6\n"
+                "assert max_subarray([1]) == 1\n"
+                "assert max_subarray([-1, -2, -3]) == -1\n"
+                "assert max_subarray([5, 4, -1, 7, 8]) == 23\n"
+                "assert max_subarray([-2, -1]) == -1\n"
+                "print('All tests passed!')"
+            ),
+            hints=[
+                "At each step, decide: extend the current subarray or start a new one from here.",
+                "current_sum = max(num, current_sum + num) captures this decision.",
             ],
         ),
     ]

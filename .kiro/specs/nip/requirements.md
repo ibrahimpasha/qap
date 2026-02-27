@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This feature delivers a comprehensive interview preparation course as a set of Jupyter notebooks (.ipynb files) targeting the NVIDIA Senior Software SDET Test Development Engineer HackerRank assessment. The assessment consists of four timed sections: Data Structures & Algorithms (15 min, multiple choice), OS/Linux (25 min, multiple choice), Python coding (30 min), and REST API coding (25 min). The notebooks cover beginner to mid-level content with explanations, examples, practice problems, solutions, and multiple-choice questions. Content is tailored to the NVIDIA SDET role, incorporating relevant technologies such as CI/CD, containers, AI frameworks, and systems-level tooling.
+This feature delivers a comprehensive interview preparation course as a set of Jupyter notebooks (.ipynb files) targeting the nip Senior Software SDET Test Development Engineer HackerRank assessment. The assessment consists of four timed sections: Data Structures & Algorithms (15 min, multiple choice), OS/Linux (25 min, multiple choice), Python coding (30 min), and REST API coding (25 min). The notebooks cover beginner to mid-level content with explanations, examples, practice problems, solutions, and multiple-choice questions. Content is tailored to the nip SDET role, incorporating relevant technologies such as CI/CD, containers, AI frameworks, and systems-level tooling.
 
 ## Glossary
 
@@ -15,7 +15,7 @@ This feature delivers a comprehensive interview preparation course as a set of J
 - **Practice_Problem**: A coding exercise or multiple-choice question with a provided solution or answer explanation
 - **MCQ**: Multiple-Choice Question with four answer options (A, B, C, D) and an explanation of the correct answer
 - **Difficulty_Level**: Classification of content as Beginner or Mid-Level to indicate progressive complexity
-- **HackerRank_Assessment**: The timed online coding and multiple-choice test used by NVIDIA for candidate evaluation
+- **HackerRank_Assessment**: The timed online coding and multiple-choice test used by nip for candidate evaluation
 
 ## Requirements
 
@@ -26,7 +26,7 @@ This feature delivers a comprehensive interview preparation course as a set of J
 #### Acceptance Criteria
 
 1. THE Notebook_System SHALL produce exactly four Jupyter notebook files in .ipynb format: one DSA_Notebook, one OS_Linux_Notebook, one Python_Notebook, and one REST_API_Notebook
-2. THE Notebook_System SHALL place all notebook files in the `nvidia_interview_prep/` directory
+2. THE Notebook_System SHALL place all notebook files in the `nip_interview_prep/` directory
 3. THE Notebook_System SHALL name the notebooks using descriptive snake_case filenames: `01_data_structures_algorithms.ipynb`, `02_os_linux.ipynb`, `03_python_coding.ipynb`, `04_rest_api_coding.ipynb`
 4. WHEN a notebook is opened in Jupyter, THE Notebook_System SHALL render all markdown cells with proper formatting including headings, bold text, code blocks, and bullet lists
 5. THE Notebook_System SHALL include a table of contents markdown cell at the top of each notebook listing all Topic_Sections within that notebook
@@ -74,7 +74,7 @@ This feature delivers a comprehensive interview preparation course as a set of J
 
 1. THE OS_Linux_Notebook SHALL cover the following Beginner topics: Linux file system hierarchy, basic shell commands (ls, cd, grep, find, chmod, chown), process management (ps, top, kill), file permissions and ownership, and package management (apt, yum/dnf)
 2. THE OS_Linux_Notebook SHALL cover the following Mid-Level topics: process scheduling and memory management concepts, shell scripting fundamentals (variables, loops, conditionals, functions), networking commands (netstat, ss, ip, curl, ping, traceroute), systemd service management, and log analysis with journalctl and common log locations
-3. THE OS_Linux_Notebook SHALL include NVIDIA-role-relevant topics: Docker container basics, CI/CD pipeline concepts (Jenkins), basic Kubernetes concepts (pods, deployments, services), and PXE boot overview
+3. THE OS_Linux_Notebook SHALL include nip-role-relevant topics: Docker container basics, CI/CD pipeline concepts (Jenkins), basic Kubernetes concepts (pods, deployments, services), and PXE boot overview
 4. THE OS_Linux_Notebook SHALL include at least 8 MCQs per Difficulty_Level, each with four answer options and an explanation of the correct answer
 5. WHEN presenting a Linux command topic, THE OS_Linux_Notebook SHALL include example command invocations with sample output shown in markdown or code cells
 6. WHEN presenting an MCQ, THE OS_Linux_Notebook SHALL hide the answer and explanation in a separate cell marked with a "Solution" heading
@@ -89,7 +89,7 @@ This feature delivers a comprehensive interview preparation course as a set of J
 2. THE Python_Notebook SHALL cover the following Mid-Level topics: object-oriented programming (classes, inheritance, decorators), generators and iterators, regular expressions, collections module (Counter, defaultdict, deque), and common algorithm implementations (two pointers, sliding window, recursion)
 3. THE Python_Notebook SHALL include at least 4 Practice_Problems per Difficulty_Level, each with a problem statement, function signature, example inputs/outputs, and a complete solution in an executable code cell
 4. WHEN presenting a Practice_Problem, THE Python_Notebook SHALL include test cases that validate the solution using assert statements
-5. THE Python_Notebook SHALL include NVIDIA-role-relevant examples: a basic test automation script pattern, a simple log parser, and a data validation utility
+5. THE Python_Notebook SHALL include nip-role-relevant examples: a basic test automation script pattern, a simple log parser, and a data validation utility
 6. WHEN presenting a solution, THE Python_Notebook SHALL place the solution in a separate cell below the problem statement so the candidate can attempt the problem first
 7. THE Python_Notebook SHALL include timing considerations and tips for solving problems within the 30-minute constraint
 
@@ -103,7 +103,7 @@ This feature delivers a comprehensive interview preparation course as a set of J
 2. THE REST_API_Notebook SHALL cover the following Mid-Level topics: API authentication (API keys, Bearer tokens), pagination handling, error handling and retry logic, working with nested JSON data, and building API test scripts
 3. THE REST_API_Notebook SHALL include at least 4 Practice_Problems per Difficulty_Level, each with a problem statement, expected function signature, example API responses as mock data, and a complete solution
 4. WHEN presenting API Practice_Problems, THE REST_API_Notebook SHALL use mock data or public free APIs (such as JSONPlaceholder, httpbin.org) so that code cells can be executed without proprietary API access
-5. THE REST_API_Notebook SHALL include NVIDIA-role-relevant examples: a Redfish API interaction pattern, a basic CI/CD webhook handler pattern, and a test result reporting API client
+5. THE REST_API_Notebook SHALL include nip-role-relevant examples: a Redfish API interaction pattern, a basic CI/CD webhook handler pattern, and a test result reporting API client
 6. WHEN presenting a solution, THE REST_API_Notebook SHALL place the solution in a separate cell below the problem statement so the candidate can attempt the problem first
 7. THE REST_API_Notebook SHALL include a reference section on common HackerRank REST API problem patterns (filtering data from paginated endpoints, aggregating results across API calls)
 

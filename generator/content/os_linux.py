@@ -740,6 +740,9 @@ def _mid_level_sections() -> list[TopicSection]:
         _cicd_pipeline_concepts(),
         _kubernetes_basics(),
         _pxe_boot_overview(),
+        _kvm_virtualization(),
+        _ansible_basics(),
+        _nvidia_gpu_linux(),
     ]
 
 
@@ -1521,7 +1524,7 @@ def _log_analysis() -> TopicSection:
 
 def _docker_container_basics() -> TopicSection:
     explanation = (
-        "### Docker Container Basics (NVIDIA-Relevant)\n\n"
+        "### Docker Container Basics (nip-Relevant)\n\n"
         "Docker packages applications and their dependencies into lightweight, "
         "portable **containers**. Containers share the host OS kernel but run "
         "in isolated user spaces.\n\n"
@@ -1529,7 +1532,7 @@ def _docker_container_basics() -> TopicSection:
         "- **Image:** A read-only template with the application and its "
         "dependencies. Built from a `Dockerfile`.\n"
         "- **Container:** A running instance of an image.\n"
-        "- **Registry:** A repository for images (e.g., Docker Hub, NVIDIA NGC).\n"
+        "- **Registry:** A repository for images (e.g., Docker Hub, nip NGC).\n"
         "- **Volume:** Persistent storage that survives container restarts.\n\n"
         "**Essential commands:**\n"
         "- `docker run` — create and start a container\n"
@@ -1538,8 +1541,8 @@ def _docker_container_basics() -> TopicSection:
         "- `docker build` — build an image from a Dockerfile\n"
         "- `docker stop` / `docker rm` — stop and remove containers\n"
         "- `docker-compose up` — start multi-container applications\n\n"
-        "**NVIDIA context:** NVIDIA uses Docker extensively for GPU-accelerated "
-        "workloads (nvidia-docker / NVIDIA Container Toolkit), CI/CD pipelines, "
+        "**nip context:** nip uses Docker extensively for GPU-accelerated "
+        "workloads (nip-docker / nip Container Toolkit), CI/CD pipelines, "
         "and reproducible test environments."
     )
 
@@ -1674,14 +1677,14 @@ def _docker_container_basics() -> TopicSection:
             "`docker run -d -p host:container image` is the basic run pattern.",
             "Dockerfile: FROM → WORKDIR → COPY → RUN → EXPOSE → CMD.",
             "docker-compose manages multi-container apps with a single YAML file.",
-            "NVIDIA uses Docker + NVIDIA Container Toolkit for GPU workloads.",
+            "nip uses Docker + nip Container Toolkit for GPU workloads.",
         ],
     )
 
 
 def _cicd_pipeline_concepts() -> TopicSection:
     explanation = (
-        "### CI/CD Pipeline Concepts — Jenkins (NVIDIA-Relevant)\n\n"
+        "### CI/CD Pipeline Concepts — Jenkins (nip-Relevant)\n\n"
         "**Continuous Integration (CI)** automatically builds and tests code "
         "on every commit. **Continuous Delivery/Deployment (CD)** automates "
         "releasing tested code to staging or production.\n\n"
@@ -1696,7 +1699,7 @@ def _cicd_pipeline_concepts() -> TopicSection:
         "- **Stages** — logical groupings of steps\n"
         "- **Steps** — individual commands within a stage\n"
         "- **Agents** — where the pipeline runs (any, docker, specific node)\n\n"
-        "**NVIDIA context:** NVIDIA uses Jenkins (and similar tools) for "
+        "**nip context:** nip uses Jenkins (and similar tools) for "
         "building drivers, running GPU test suites, and deploying firmware "
         "updates across server fleets."
     )
@@ -1785,14 +1788,14 @@ def _cicd_pipeline_concepts() -> TopicSection:
             "Jenkinsfile defines pipeline-as-code using Groovy declarative syntax.",
             "Key blocks: `agent` (where), `stages` (what), `post` (after), `environment` (variables).",
             "The `when` directive controls conditional stage execution (e.g., only on main branch).",
-            "NVIDIA uses CI/CD for driver builds, GPU test suites, and firmware deployment.",
+            "nip uses CI/CD for driver builds, GPU test suites, and firmware deployment.",
         ],
     )
 
 
 def _kubernetes_basics() -> TopicSection:
     explanation = (
-        "### Basic Kubernetes Concepts (NVIDIA-Relevant)\n\n"
+        "### Basic Kubernetes Concepts (nip-Relevant)\n\n"
         "**Kubernetes (K8s)** is a container orchestration platform that "
         "automates deploying, scaling, and managing containerized applications.\n\n"
         "**Core objects:**\n"
@@ -1812,8 +1815,8 @@ def _kubernetes_basics() -> TopicSection:
         "- `kubectl logs <pod>` — view pod logs\n"
         "- `kubectl apply -f <file.yaml>` — apply a configuration\n"
         "- `kubectl delete pod <name>` — delete a pod\n\n"
-        "**NVIDIA context:** NVIDIA uses Kubernetes for managing GPU clusters, "
-        "scheduling GPU workloads with the NVIDIA device plugin, and running "
+        "**nip context:** nip uses Kubernetes for managing GPU clusters, "
+        "scheduling GPU workloads with the nip device plugin, and running "
         "distributed training jobs."
     )
 
@@ -1960,14 +1963,14 @@ def _kubernetes_basics() -> TopicSection:
             "Service types: ClusterIP (internal), NodePort (external via node port), LoadBalancer (cloud).",
             "`kubectl get`, `kubectl describe`, `kubectl logs` are your daily K8s commands.",
             "`kubectl apply -f` applies YAML manifests — the declarative way to manage resources.",
-            "NVIDIA uses K8s with the GPU device plugin for scheduling GPU workloads.",
+            "nip uses K8s with the GPU device plugin for scheduling GPU workloads.",
         ],
     )
 
 
 def _pxe_boot_overview() -> TopicSection:
     explanation = (
-        "### PXE Boot Overview (NVIDIA-Relevant)\n\n"
+        "### PXE Boot Overview (nip-Relevant)\n\n"
         "**PXE (Preboot Execution Environment)** allows a computer to boot "
         "from the network instead of a local disk. It's widely used for:\n"
         "- Automated OS installation across server fleets\n"
@@ -1987,8 +1990,8 @@ def _pxe_boot_overview() -> TopicSection:
         "- **TFTP server** — serves the boot loader and kernel\n"
         "- **HTTP/NFS server** — serves the OS installation files\n"
         "- **Kickstart (RHEL) / Preseed (Debian)** — automated install config\n\n"
-        "**NVIDIA context:** PXE boot is used to provision bare-metal GPU "
-        "servers at scale, deploy custom OS images with NVIDIA drivers, and "
+        "**nip context:** PXE boot is used to provision bare-metal GPU "
+        "servers at scale, deploy custom OS images with nip drivers, and "
         "manage server fleets in data centers."
     )
 
@@ -2078,6 +2081,543 @@ def _pxe_boot_overview() -> TopicSection:
 # ---------------------------------------------------------------------------
 # Mock test (10-12 MCQs for 25-minute completion)
 # ---------------------------------------------------------------------------
+
+def _kvm_virtualization() -> TopicSection:
+    explanation = (
+        "### KVM/VMware/Hyper-V Virtualization\n\n"
+        "Virtualization runs multiple OS instances on one physical host. "
+        "For NVIDIA SDET roles, understanding hypervisors is critical for "
+        "testing GPU passthrough, vGPU, and multi-tenant GPU workloads.\n\n"
+        "**KVM (Kernel-based Virtual Machine):**\n"
+        "- Built into the Linux kernel; uses QEMU for device emulation\n"
+        "- Managed via `virsh`, `virt-manager`, or `libvirt` API\n"
+        "- GPU passthrough: assign a physical GPU directly to a VM (VFIO)\n\n"
+        "**Key KVM commands:**\n"
+        "```bash\n"
+        "virsh list --all          # list all VMs\n"
+        "virsh start <vm>          # start a VM\n"
+        "virsh shutdown <vm>       # graceful shutdown\n"
+        "virsh destroy <vm>        # force stop\n"
+        "virsh snapshot-create-as <vm> snap1  # create snapshot\n"
+        "virt-install --name vm1 --ram 4096 --vcpus 2 --disk size=20 --os-variant ubuntu22.04\n"
+        "```\n\n"
+        "**VMware ESXi** — enterprise hypervisor; VMs managed via vSphere/vCenter.\n\n"
+        "**Hyper-V** — Microsoft hypervisor; common in mixed Windows/Linux environments.\n\n"
+        "**Type 1 vs Type 2 hypervisors:**\n"
+        "- Type 1 (bare-metal): KVM, VMware ESXi, Hyper-V — run directly on hardware\n"
+        "- Type 2 (hosted): VirtualBox, VMware Workstation — run on top of a host OS\n\n"
+        "**VFIO GPU passthrough** — bind a GPU to the `vfio-pci` driver so a VM "
+        "gets exclusive access to the physical GPU for CUDA workloads."
+    )
+
+    examples = [
+        (
+            "# --- KVM management with virsh ---\n"
+            "import textwrap\n\n"
+            "virsh_output = textwrap.dedent('''\n"
+            "    # List all VMs\n"
+            "    $ virsh list --all\n"
+            "     Id   Name          State\n"
+            "    ----------------------------\n"
+            "     1    ubuntu-22.04  running\n"
+            "     2    centos-9      shut off\n"
+            "     -    test-vm       shut off\n\n"
+            "    # Start a VM\n"
+            "    $ virsh start centos-9\n"
+            "    Domain centos-9 started\n\n"
+            "    # Get VM info\n"
+            "    $ virsh dominfo ubuntu-22.04\n"
+            "    Id:             1\n"
+            "    Name:           ubuntu-22.04\n"
+            "    UUID:           a1b2c3d4-...\n"
+            "    OS Type:        hvm\n"
+            "    State:          running\n"
+            "    CPU(s):         8\n"
+            "    Max memory:     16384 MiB\n"
+            "    Used memory:    16384 MiB\n\n"
+            "    # Check if KVM is available\n"
+            "    $ lsmod | grep kvm\n"
+            "    kvm_intel             364544  0\n"
+            "    kvm                  1032192  1 kvm_intel\n"
+            "''')\n"
+            "print(virsh_output)"
+        ),
+        (
+            "# --- GPU passthrough with VFIO ---\n"
+            "import textwrap\n\n"
+            "vfio_output = textwrap.dedent('''\n"
+            "    # Step 1: Find GPU PCI address\n"
+            "    $ lspci | grep -i nvidia\n"
+            "    01:00.0 VGA compatible controller: NVIDIA A100 80GB PCIe\n"
+            "    01:00.1 Audio device: NVIDIA A100 Audio\n\n"
+            "    # Step 2: Bind GPU to vfio-pci driver\n"
+            "    $ echo 0000:01:00.0 > /sys/bus/pci/drivers/nvidia/unbind\n"
+            "    $ echo 0000:01:00.0 > /sys/bus/pci/drivers/vfio-pci/bind\n\n"
+            "    # Step 3: Add GPU to VM definition (in XML)\n"
+            "    # <hostdev mode=\"subsystem\" type=\"pci\" managed=\"yes\">\n"
+            "    #   <source><address domain=\"0x0000\" bus=\"0x01\" slot=\"0x00\" function=\"0x0\"/></source>\n"
+            "    # </hostdev>\n\n"
+            "    # Verify IOMMU is enabled (required for passthrough)\n"
+            "    $ dmesg | grep -i iommu\n"
+            "    [    0.000000] DMAR: IOMMU enabled\n"
+            "''')\n"
+            "print(vfio_output)"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "What type of hypervisor is KVM (Kernel-based Virtual Machine)?"
+            ),
+            options={
+                "A": "Type 2 — runs on top of a host operating system",
+                "B": "Type 1 — runs directly on bare-metal hardware",
+                "C": "A container runtime, not a hypervisor",
+                "D": "A paravirtualization framework only",
+            },
+            correct="B",
+            explanation=(
+                "KVM is a Type 1 (bare-metal) hypervisor because it is built "
+                "into the Linux kernel and runs directly on hardware. The Linux "
+                "kernel itself becomes the hypervisor."
+            ),
+            distractors={
+                "A": "Type 2 hypervisors (VirtualBox, VMware Workstation) run on top of a host OS — KVM does not.",
+                "C": "KVM creates full VMs with hardware emulation, unlike containers which share the host kernel.",
+                "D": "KVM supports full virtualization (HVM), not just paravirtualization.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "Which technology is required to pass a physical GPU directly "
+                "to a KVM virtual machine for exclusive CUDA access?"
+            ),
+            options={
+                "A": "SR-IOV only",
+                "B": "VFIO (Virtual Function I/O) with IOMMU enabled",
+                "C": "Docker --gpus flag",
+                "D": "virtio-gpu driver",
+            },
+            correct="B",
+            explanation=(
+                "GPU passthrough to a KVM VM requires VFIO (Virtual Function I/O) "
+                "and IOMMU (Intel VT-d or AMD-Vi) enabled in the BIOS/UEFI. "
+                "The GPU is bound to the vfio-pci driver and assigned exclusively to the VM."
+            ),
+            distractors={
+                "A": "SR-IOV partitions a single device into multiple virtual functions — it doesn't give exclusive physical GPU access.",
+                "C": "Docker --gpus uses the NVIDIA Container Toolkit, not VFIO passthrough.",
+                "D": "virtio-gpu is a paravirtualized display adapter, not a passthrough mechanism.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "Which command lists all KVM virtual machines including those "
+                "that are shut off?"
+            ),
+            options={
+                "A": "virsh list",
+                "B": "virsh list --all",
+                "C": "virt-manager --list",
+                "D": "kvm --list-vms",
+            },
+            correct="B",
+            explanation=(
+                "`virsh list` only shows running VMs. `virsh list --all` shows "
+                "all VMs regardless of state (running, shut off, paused)."
+            ),
+            distractors={
+                "A": "`virsh list` without --all only shows currently running VMs.",
+                "C": "virt-manager is a GUI tool; it doesn't have a --list CLI flag.",
+                "D": "`kvm` is the QEMU binary; it doesn't have a --list-vms option.",
+            },
+            mcq_type="command",
+        ),
+    ]
+
+    return TopicSection(
+        title="KVM/VMware/Hyper-V Virtualization",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "KVM is a Type 1 hypervisor built into the Linux kernel; managed via virsh/libvirt.",
+            "GPU passthrough (VFIO) requires IOMMU enabled and binding the GPU to vfio-pci driver.",
+            "Type 1 hypervisors (KVM, ESXi) run on bare metal; Type 2 (VirtualBox) run on a host OS.",
+            "virsh list --all shows all VMs; virsh list shows only running ones.",
+            "For NVIDIA SDET: KVM + VFIO is the standard way to test GPU workloads in isolated VMs.",
+        ],
+    )
+
+
+def _ansible_basics() -> TopicSection:
+    explanation = (
+        "### Ansible — Infrastructure Automation\n\n"
+        "Ansible is an agentless automation tool used for configuration "
+        "management, application deployment, and orchestration. It's widely "
+        "used in NVIDIA SDET workflows for provisioning test servers and "
+        "deploying software stacks.\n\n"
+        "**Key concepts:**\n"
+        "- **Agentless** — uses SSH; no agent installed on managed nodes\n"
+        "- **Inventory** — list of hosts to manage (`/etc/ansible/hosts` or custom file)\n"
+        "- **Playbook** — YAML file defining tasks to run on hosts\n"
+        "- **Module** — a unit of work (e.g., `apt`, `copy`, `service`, `shell`)\n"
+        "- **Role** — reusable collection of tasks, variables, and templates\n\n"
+        "**Common commands:**\n"
+        "```bash\n"
+        "ansible all -m ping                          # test connectivity\n"
+        "ansible all -m shell -a 'uname -r'           # run shell command\n"
+        "ansible-playbook deploy.yml                  # run a playbook\n"
+        "ansible-playbook deploy.yml --check          # dry run\n"
+        "ansible-playbook deploy.yml -l gpu-nodes     # limit to group\n"
+        "ansible-vault encrypt secrets.yml            # encrypt sensitive data\n"
+        "```\n\n"
+        "**Idempotency** — running a playbook multiple times produces the "
+        "same result. Ansible modules are designed to be idempotent."
+    )
+
+    examples = [
+        (
+            "# --- Ansible inventory and ad-hoc commands ---\n"
+            "import textwrap\n\n"
+            "ansible_output = textwrap.dedent('''\n"
+            "    # inventory.ini\n"
+            "    [gpu_nodes]\n"
+            "    gpu-01 ansible_host=10.0.1.10\n"
+            "    gpu-02 ansible_host=10.0.1.11\n"
+            "    gpu-03 ansible_host=10.0.1.12\n\n"
+            "    [cpu_nodes]\n"
+            "    cpu-01 ansible_host=10.0.1.20\n\n"
+            "    [all:vars]\n"
+            "    ansible_user=sysadmin\n"
+            "    ansible_ssh_private_key_file=~/.ssh/id_rsa\n\n"
+            "    # Test connectivity to all hosts\n"
+            "    $ ansible all -i inventory.ini -m ping\n"
+            "    gpu-01 | SUCCESS => {\"ping\": \"pong\"}\n"
+            "    gpu-02 | SUCCESS => {\"ping\": \"pong\"}\n"
+            "    gpu-03 | SUCCESS => {\"ping\": \"pong\"}\n\n"
+            "    # Get kernel version on all GPU nodes\n"
+            "    $ ansible gpu_nodes -i inventory.ini -m shell -a 'uname -r'\n"
+            "    gpu-01 | CHANGED | rc=0 >>\n"
+            "    5.15.0-91-generic\n"
+            "''')\n"
+            "print(ansible_output)"
+        ),
+        (
+            "# --- Ansible playbook example ---\n"
+            "import textwrap\n\n"
+            "playbook = textwrap.dedent('''\n"
+            "    # deploy_cuda.yml — Install CUDA toolkit on GPU nodes\n"
+            "    ---\n"
+            "    - name: Deploy CUDA toolkit\n"
+            "      hosts: gpu_nodes\n"
+            "      become: yes          # run as root (sudo)\n"
+            "      vars:\n"
+            "        cuda_version: \"12.3\"\n\n"
+            "      tasks:\n"
+            "        - name: Add NVIDIA package repository\n"
+            "          apt_key:\n"
+            "            url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub\n"
+            "            state: present\n\n"
+            "        - name: Install CUDA toolkit\n"
+            "          apt:\n"
+            "            name: \"cuda-toolkit-{{ cuda_version | replace(\\\".\\\", \\\"-\\\") }}\"\n"
+            "            state: present\n"
+            "            update_cache: yes\n\n"
+            "        - name: Verify CUDA installation\n"
+            "          shell: nvcc --version\n"
+            "          register: nvcc_output\n\n"
+            "        - name: Print CUDA version\n"
+            "          debug:\n"
+            "            msg: \"{{ nvcc_output.stdout }}\"\n\n"
+            "    # Run: ansible-playbook -i inventory.ini deploy_cuda.yml\n"
+            "''')\n"
+            "print(playbook)"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "Which statement best describes Ansible's architecture?"
+            ),
+            options={
+                "A": "Agent-based: requires a daemon running on each managed node",
+                "B": "Agentless: uses SSH to connect to managed nodes without installing agents",
+                "C": "Requires a central database to store node state",
+                "D": "Only works on nodes running the same OS as the control machine",
+            },
+            correct="B",
+            explanation=(
+                "Ansible is agentless — it connects to managed nodes over SSH "
+                "(or WinRM for Windows) and executes modules remotely. No agent "
+                "or daemon needs to be installed on the managed nodes."
+            ),
+            distractors={
+                "A": "Agent-based tools like Puppet and Chef require agents. Ansible does not.",
+                "C": "Ansible stores state in inventory files and playbooks, not a central database.",
+                "D": "Ansible can manage heterogeneous environments — Linux, Windows, network devices.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What does the `--check` flag do when running an Ansible playbook?"
+            ),
+            options={
+                "A": "Validates the YAML syntax only, without connecting to hosts",
+                "B": "Runs the playbook in dry-run mode — shows what would change without making changes",
+                "C": "Checks that all hosts in the inventory are reachable",
+                "D": "Runs only tasks tagged with 'check'",
+            },
+            correct="B",
+            explanation=(
+                "`ansible-playbook --check` performs a dry run. Ansible connects "
+                "to hosts and evaluates tasks but does not make any actual changes. "
+                "It reports what would be changed."
+            ),
+            distractors={
+                "A": "Syntax validation uses `ansible-playbook --syntax-check`, not --check.",
+                "C": "Connectivity testing uses `ansible all -m ping`, not --check.",
+                "D": "Running tagged tasks uses `--tags`, not --check.",
+            },
+            mcq_type="command",
+        ),
+        MCQ(
+            question=(
+                "In an Ansible playbook, what does `become: yes` do?"
+            ),
+            options={
+                "A": "Enables verbose output for the task",
+                "B": "Runs the task with elevated privileges (sudo/root)",
+                "C": "Makes the task idempotent",
+                "D": "Retries the task if it fails",
+            },
+            correct="B",
+            explanation=(
+                "`become: yes` tells Ansible to use privilege escalation "
+                "(typically sudo) to run the task as root or another privileged user. "
+                "It's equivalent to prefixing a command with `sudo`."
+            ),
+            distractors={
+                "A": "Verbose output uses `-v` or `-vvv` on the command line.",
+                "C": "Idempotency is a property of Ansible modules, not controlled by `become`.",
+                "D": "Retry logic uses `retries` and `until` keywords.",
+            },
+            mcq_type="conceptual",
+        ),
+    ]
+
+    return TopicSection(
+        title="Ansible — Infrastructure Automation",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "Ansible is agentless — it uses SSH; no daemon needed on managed nodes.",
+            "Playbooks are YAML files; tasks use modules (apt, shell, copy, service).",
+            "`become: yes` runs tasks with sudo/root privileges.",
+            "`--check` is a dry run — shows what would change without applying it.",
+            "Ansible is idempotent — running a playbook twice produces the same result.",
+        ],
+    )
+
+
+def _nvidia_gpu_linux() -> TopicSection:
+    explanation = (
+        "### NVIDIA GPU Management on Linux\n\n"
+        "For NVIDIA SDET roles, GPU management on Linux is a core skill. "
+        "You'll use these tools daily to monitor, configure, and troubleshoot "
+        "HGX/DGX/MGX systems.\n\n"
+        "**nvidia-smi — the primary GPU management tool:**\n"
+        "```bash\n"
+        "nvidia-smi                        # overview of all GPUs\n"
+        "nvidia-smi -q                     # full query (all details)\n"
+        "nvidia-smi -q -d TEMPERATURE      # temperature only\n"
+        "nvidia-smi --query-gpu=name,temperature.gpu,utilization.gpu,memory.used \\\n"
+        "           --format=csv           # CSV output for scripting\n"
+        "nvidia-smi dmon                   # continuous monitoring\n"
+        "nvidia-smi topo -m                # GPU topology / NVLink matrix\n"
+        "```\n\n"
+        "**NVIDIA driver management:**\n"
+        "```bash\n"
+        "ubuntu-drivers devices            # list recommended drivers\n"
+        "apt install nvidia-driver-535     # install driver\n"
+        "modprobe nvidia                   # load driver module\n"
+        "lsmod | grep nvidia               # verify driver loaded\n"
+        "dmesg | grep -i nvidia            # check for driver errors\n"
+        "```\n\n"
+        "**CUDA toolkit:**\n"
+        "```bash\n"
+        "nvcc --version                    # CUDA compiler version\n"
+        "nvidia-smi | grep 'CUDA Version'  # max supported CUDA version\n"
+        "```\n\n"
+        "**SLURM — HPC job scheduler** (used on DGX clusters):\n"
+        "```bash\n"
+        "sinfo                             # cluster node status\n"
+        "squeue                            # running/pending jobs\n"
+        "sbatch job.sh                     # submit a batch job\n"
+        "srun --gres=gpu:1 python train.py # interactive GPU job\n"
+        "scancel <jobid>                   # cancel a job\n"
+        "```"
+    )
+
+    examples = [
+        (
+            "# --- nvidia-smi: monitoring GPU health ---\n"
+            "import textwrap\n\n"
+            "smi_output = textwrap.dedent('''\n"
+            "    $ nvidia-smi\n"
+            "    +-----------------------------------------------------------------------------+\n"
+            "    | NVIDIA-SMI 535.104.05   Driver Version: 535.104.05   CUDA Version: 12.2    |\n"
+            "    |-------------------------------+----------------------+----------------------+\n"
+            "    | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |\n"
+            "    | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |\n"
+            "    |===============================+======================+======================|\n"
+            "    |   0  NVIDIA A100-SXM4   On   | 00000000:07:00.0 Off |                    0 |\n"
+            "    | N/A   38C    P0    68W / 400W |   2048MiB / 81920MiB |      5%      Default |\n"
+            "    +-----------------------------------------------------------------------------+\n"
+            "    |   1  NVIDIA A100-SXM4   On   | 00000000:0F:00.0 Off |                    0 |\n"
+            "    | N/A   41C    P0    72W / 400W |      0MiB / 81920MiB |      0%      Default |\n"
+            "    +-----------------------------------------------------------------------------+\n\n"
+            "    # CSV output for scripting\n"
+            "    $ nvidia-smi --query-gpu=index,name,temperature.gpu,utilization.gpu,memory.used,memory.total \\\n"
+            "                 --format=csv,noheader\n"
+            "    0, NVIDIA A100-SXM4-80GB, 38, 5, 2048 MiB, 81920 MiB\n"
+            "    1, NVIDIA A100-SXM4-80GB, 41, 0, 0 MiB, 81920 MiB\n"
+            "''')\n"
+            "print(smi_output)"
+        ),
+        (
+            "# --- Parsing nvidia-smi output in Python ---\n"
+            "import subprocess\n\n"
+            "def get_gpu_stats() -> list[dict]:\n"
+            "    \"\"\"\n"
+            "    Query GPU stats using nvidia-smi CSV output.\n"
+            "    Returns a list of dicts, one per GPU.\n"
+            "    \"\"\"\n"
+            "    cmd = [\n"
+            "        'nvidia-smi',\n"
+            "        '--query-gpu=index,name,temperature.gpu,utilization.gpu,memory.used,memory.total',\n"
+            "        '--format=csv,noheader,nounits'\n"
+            "    ]\n"
+            "    # In a real environment, run subprocess.check_output(cmd)\n"
+            "    # Simulated output for this notebook:\n"
+            "    mock_output = '0, A100-SXM4-80GB, 38, 5, 2048, 81920\\n1, A100-SXM4-80GB, 41, 0, 0, 81920'\n\n"
+            "    gpus = []\n"
+            "    for line in mock_output.strip().split('\\n'):\n"
+            "        idx, name, temp, util, mem_used, mem_total = [x.strip() for x in line.split(',')]\n"
+            "        gpus.append({\n"
+            "            'index':      int(idx),\n"
+            "            'name':       name,\n"
+            "            'temp_c':     int(temp),\n"
+            "            'util_pct':   int(util),\n"
+            "            'mem_used_mb': int(mem_used),\n"
+            "            'mem_total_mb': int(mem_total),\n"
+            "        })\n"
+            "    return gpus\n\n"
+            "gpus = get_gpu_stats()\n"
+            "for gpu in gpus:\n"
+            "    print(f\"GPU {gpu['index']}: {gpu['temp_c']}°C, {gpu['util_pct']}% util, \"\n"
+            "          f\"{gpu['mem_used_mb']}/{gpu['mem_total_mb']} MB\")"
+        ),
+    ]
+
+    mcqs = [
+        MCQ(
+            question=(
+                "Which nvidia-smi command outputs GPU stats in CSV format "
+                "suitable for scripting and automation?"
+            ),
+            options={
+                "A": "nvidia-smi -q",
+                "B": "nvidia-smi --query-gpu=... --format=csv",
+                "C": "nvidia-smi dmon",
+                "D": "nvidia-smi topo -m",
+            },
+            correct="B",
+            explanation=(
+                "`nvidia-smi --query-gpu=<fields> --format=csv` outputs selected "
+                "GPU metrics in CSV format, making it easy to parse in shell scripts "
+                "or Python. Use `--format=csv,noheader,nounits` for clean output."
+            ),
+            distractors={
+                "A": "`nvidia-smi -q` outputs a verbose human-readable format, not CSV.",
+                "C": "`nvidia-smi dmon` is a continuous monitoring mode, not CSV output.",
+                "D": "`nvidia-smi topo -m` shows the GPU topology/NVLink matrix.",
+            },
+            mcq_type="command",
+        ),
+        MCQ(
+            question=(
+                "On a DGX/HGX cluster, which job scheduler is commonly used "
+                "to allocate GPUs to workloads?"
+            ),
+            options={
+                "A": "cron",
+                "B": "systemd",
+                "C": "SLURM",
+                "D": "Ansible",
+            },
+            correct="C",
+            explanation=(
+                "SLURM (Simple Linux Utility for Resource Management) is the "
+                "standard HPC job scheduler used on DGX/HGX clusters. It manages "
+                "GPU allocation with `--gres=gpu:N` and queues jobs with `sbatch`."
+            ),
+            distractors={
+                "A": "cron schedules time-based jobs, not resource-aware GPU workloads.",
+                "B": "systemd manages services, not HPC job queues.",
+                "D": "Ansible is a configuration management tool, not a job scheduler.",
+            },
+            mcq_type="conceptual",
+        ),
+        MCQ(
+            question=(
+                "What does `nvidia-smi topo -m` display?"
+            ),
+            options={
+                "A": "GPU temperature and power consumption",
+                "B": "The NVLink/PCIe topology matrix showing interconnect between GPUs",
+                "C": "The CUDA driver and toolkit version",
+                "D": "A list of running GPU processes",
+            },
+            correct="B",
+            explanation=(
+                "`nvidia-smi topo -m` displays the topology matrix showing how "
+                "GPUs are interconnected — via NVLink, PCIe, or through a CPU. "
+                "This is critical for understanding bandwidth between GPUs on "
+                "HGX/DGX systems."
+            ),
+            distractors={
+                "A": "Temperature and power are shown in the default `nvidia-smi` output.",
+                "C": "CUDA version is shown in the header of `nvidia-smi` or via `nvcc --version`.",
+                "D": "Running GPU processes are shown with `nvidia-smi` or `nvidia-smi pmon`.",
+            },
+            mcq_type="command",
+        ),
+    ]
+
+    return TopicSection(
+        title="NVIDIA GPU Management on Linux",
+        difficulty="Mid-Level",
+        explanation=explanation,
+        examples=examples,
+        practice=mcqs,
+        key_takeaways=[
+            "nvidia-smi is the primary tool for GPU monitoring — use --query-gpu --format=csv for scripting.",
+            "nvidia-smi topo -m shows NVLink/PCIe topology — critical for HGX/DGX multi-GPU systems.",
+            "SLURM is the standard HPC job scheduler on DGX clusters; use --gres=gpu:N to request GPUs.",
+            "Check driver load with `lsmod | grep nvidia` and errors with `dmesg | grep -i nvidia`.",
+            "CUDA Version in nvidia-smi is the maximum supported version, not the installed toolkit version.",
+        ],
+    )
+
 
 def _mock_test() -> list[MCQ]:
     return [
